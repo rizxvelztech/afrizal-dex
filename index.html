@@ -388,17 +388,37 @@
       <p class="reveal d2 text-zinc-400 mt-2 max-w-2xl mx-auto">Explore my journey through projects, certifications, and technical expertise.</p>
     </div>
     
-    <div class="flex flex-wrap justify-center gap-2 mb-10 bg-white/5 rounded-full p-1 max-w-md mx-auto border border-white/5">
-      <button @click="activeTab='projects'" class="tab-btn" :class="activeTab==='projects'?'active':''">
-        <i class="fas fa-code mr-1.5"></i> Projects
-      </button>
-      <button @click="activeTab='certificates'" class="tab-btn" :class="activeTab==='certificates'?'active':''">
-        <i class="fas fa-certificate mr-1.5"></i> Certificates
-      </button>
-      <button @click="activeTab='techstack'" class="tab-btn" :class="activeTab==='techstack'?'active':''">
-        <i class="fas fa-cubes mr-1.5"></i> Tech Stack
-      </button>
-    </div>
+<!-- Tabs -->
+<div class="flex flex-wrap justify-center gap-2 mb-10 bg-white/5 rounded-full p-1 max-w-md mx-auto border border-white/5">
+  <button @click="activeTab='projects'" class="tab-btn" :class="activeTab==='projects'?'active':''">
+    <i class="fas fa-code mr-1.5"></i> Projects
+  </button>
+  <button @click="activeTab='certificates'" class="tab-btn" :class="activeTab==='certificates'?'active':''">
+    <i class="fas fa-certificate mr-1.5"></i> Certificates
+  </button>
+  <button @click="activeTab='techstack'" class="tab-btn" :class="activeTab==='techstack'?'active':''">
+    <i class="fas fa-cubes mr-1.5"></i> Tech Stack
+  </button>
+</div>
+
+<!-- Tab Content dengan AlpineJS transition -->
+<div x-show="activeTab==='projects'" 
+     x-transition:enter.duration.400ms.opacity.scale.origin.top
+     class="tab-content">
+  <!-- Projects content -->
+</div>
+
+<div x-show="activeTab==='certificates'" 
+     x-transition:enter.duration.400ms.opacity.scale.origin.top
+     class="tab-content">
+  <!-- Certificates content -->
+</div>
+
+<div x-show="activeTab==='techstack'" 
+     x-transition:enter.duration.400ms.opacity.scale.origin.top
+     class="tab-content">
+  <!-- Tech Stack content -->
+</div>
     
 <div x-show="activeTab==='projects'" x-transition>
   <div class="grid md:grid-cols-2 gap-6">
