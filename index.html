@@ -242,12 +242,19 @@
           Available for work
         </div>
         <p class="reveal text-sm font-semibold text-white tracking-wider uppercase mb-2">Hi, I'm</p>
+        
+        <!-- Typing Effect untuk Nama -->
         <h1 class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-tight mb-4 text-white">
-          Afrizal <br><span class="bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Maulana</span>
+          <span id="typing-name" class="bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent"></span>
+          <span class="typing-cursor">|</span>
         </h1>
+        
+        <!-- Typing Effect untuk Deskripsi -->
         <p class="reveal d2 text-lg md:text-xl text-zinc-400 leading-relaxed mb-6 max-w-lg">
-          A passionate <strong class="font-semibold text-white">developer and programmer</strong> creating digital solutions through innovative code.
+          <span id="typing-desc"></span>
+          <span class="typing-cursor-desc">|</span>
         </p>
+        
         <div class="reveal d3 grid grid-cols-3 gap-6 mb-8 max-w-md">
           <div><div class="stat-number" x-text="'2+'">2+</div><div class="text-xs text-zinc-500 font-medium">Years Experience</div></div>
           <div><div class="stat-number" x-text="'99+'">99+</div><div class="text-xs text-zinc-500 font-medium">Projects Done</div></div>
@@ -691,6 +698,63 @@
 
 <!-- ===== AUDIO PLAYER SCRIPT ===== -->
 <script>
+// ========================================
+// TYPING EFFECT
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Teks yang akan diketik
+  const nameText = "Afrizal Maulana";
+  const descText = "A passionate developer and programmer creating digital solutions through innovative code.";
+
+  const nameElement = document.getElementById('typing-name');
+  const descElement = document.getElementById('typing-desc');
+  
+  let nameIndex = 0;
+  let descIndex = 0;
+  let isNameComplete = false;
+  let isDescComplete = false;
+
+  // Hapus kursor dari span saat typing selesai
+  function removeNameCursor() {
+    const cursor = document.querySelector('.typing-cursor');
+    if (cursor) cursor.style.display = 'none';
+  }
+  
+  function removeDescCursor() {
+    const cursor = document.querySelector('.typing-cursor-desc');
+    if (cursor) cursor.style.display = 'none';
+  }
+
+  // Type Nama
+  function typeName() {
+    if (nameIndex < nameText.length) {
+      nameElement.textContent += nameText.charAt(nameIndex);
+      nameIndex++;
+      setTimeout(typeName, 80); // kecepatan ngetik nama
+    } else {
+      isNameComplete = true;
+      removeNameCursor();
+      // Mulai ngetik deskripsi setelah nama selesai
+      setTimeout(typeDesc, 300);
+    }
+  }
+
+  // Type Deskripsi
+  function typeDesc() {
+    if (descIndex < descText.length) {
+      descElement.textContent += descText.charAt(descIndex);
+      descIndex++;
+      setTimeout(typeDesc, 30); // kecepatan ngetik deskripsi (lebih cepat)
+    } else {
+      isDescComplete = true;
+      removeDescCursor();
+    }
+  }
+
+  // Mulai efek typing setelah halaman dimuat
+  setTimeout(typeName, 500);
+});
   document.addEventListener('alpine:init', () => {
     Alpine.data('audioPlayer', () => ({
       isPlaying: false,
