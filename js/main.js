@@ -47,11 +47,6 @@ function app() {
     activeSection: 'hero',
     activeTab: 'projects',
     currentAge: 0,
-    comments: [],
-    commentName: '',
-    commentText: '',
-    imagePreview: false,
-    imageData: null,
 
     init() {
       const lenis = new Lenis({
@@ -85,8 +80,6 @@ function app() {
 
       const yearEl = document.getElementById('copyrightYear');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-      this.loadComments();
     },
 
     updateAge() {
@@ -107,70 +100,6 @@ function app() {
         }
       }
       this.activeSection = 'hero';
-    },
-
-    loadComments() {
-      const saved = localStorage.getItem('comments');
-      if (saved) {
-        this.comments = JSON.parse(saved);
-      } else {
-        this.comments = [
-          {
-            name: 'Afrizal',
-            text: 'Portofolio keren! Suka desainnya.',
-            time: '2 jam yang lalu',
-            image: null
-          }
-        ];
-        this.saveComments();
-      }
-    },
-
-    saveComments() {
-      localStorage.setItem('comments', JSON.stringify(this.comments));
-    },
-
-    addComment() {
-      if (!this.commentName.trim() || !this.commentText.trim()) {
-        alert('Nama dan komentar wajib diisi!');
-        return;
-      }
-
-      const now = new Date();
-      const timeString = now.toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-
-      const newComment = {
-        name: this.commentName.trim(),
-        text: this.commentText.trim(),
-        time: timeString,
-        image: this.imageData || null
-      };
-
-      this.comments.unshift(newComment);
-      this.saveComments();
-
-      this.commentName = '';
-      this.commentText = '';
-      this.imageData = null;
-      this.imagePreview = false;
-    },
-
-    handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.imageData = e.target.result;
-          this.imagePreview = true;
-        };
-        reader.readAsDataURL(file);
-      }
     }
   }
 }
