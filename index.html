@@ -37,240 +37,7 @@
 </script>
 
 <style>
-
-.lanyard-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  perspective: 1200px;
-  padding: 40px 20px;
-}
-
-.lanyard-card-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-}
-
-.lanyard-card-wrapper:active {
-  cursor: grabbing;
-}
-
-.lanyard-card-wrapper.dragging {
-  cursor: grabbing;
-  transition: none;
-}
-
-.lanyard-rope {
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 120px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.02));
-  z-index: 1;
-}
-
-.lanyard-rope::before,
-.lanyard-rope::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.12), transparent);
-  border-radius: 2px;
-}
-
-.lanyard-rope::before {
-  left: -6px;
-  transform: rotate(-6deg);
-  transform-origin: top;
-}
-
-.lanyard-rope::after {
-  right: -6px;
-  transform: rotate(6deg);
-  transform-origin: top;
-}
-
-.lanyard-knot {
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 14px;
-  z-index: 2;
-}
-
-.lanyard-knot span {
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.06);
-}
-
-.id-card-lanyard {
-  position: relative;
-  width: 260px;
-  height: 380px;
-  background: linear-gradient(145deg, #1a1a2e, #16213e);
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 
-    0 20px 60px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.04),
-    0 0 80px rgba(99,102,241,0.04);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  z-index: 3;
-}
-
-.id-card-lanyard::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 20px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent, rgba(255,255,255,0.03));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-.id-card-lanyard .glow-effect {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 20%, rgba(99,102,241,0.05), transparent 60%);
-  pointer-events: none;
-  animation: glowFloat 4s ease-in-out infinite;
-}
-
-@keyframes glowFloat {
-  0%, 100% { opacity: 0.5; transform: scale(1) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1.1) rotate(3deg); }
-}
-
-.id-card-lanyard .photo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.15);
-  overflow: hidden;
-  margin-top: 10px;
-  flex-shrink: 0;
-  box-shadow: 0 0 40px rgba(99,102,241,0.08);
-}
-
-.id-card-lanyard .photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.id-card-lanyard .card-name {
-  font-family: 'Poppins', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  margin-top: 12px;
-  text-align: center;
-}
-
-.id-card-lanyard .card-role {
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
-  text-align: center;
-  margin-top: 2px;
-  letter-spacing: 0.5px;
-}
-
-.id-card-lanyard .divider {
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
-  margin: 10px 0;
-}
-
-.id-card-lanyard .card-id {
-  font-size: 11px;
-  color: rgba(255,255,255,0.25);
-  letter-spacing: 2px;
-  font-family: 'Inter', monospace;
-}
-
-.id-card-lanyard .badge-icon {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  font-size: 10px;
-  color: rgba(255,255,255,0.08);
-  letter-spacing: 1px;
-  font-weight: 300;
-}
-
-.id-card-lanyard .card-line {
-  position: absolute;
-  bottom: 50px;
-  left: 20px;
-  right: 20px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.04), transparent);
-}
-
-/* Hover effect */
-.id-card-lanyard:hover {
-  transform: translateY(-3px);
-  box-shadow: 
-    0 25px 70px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.06),
-    0 0 100px rgba(99,102,241,0.06);
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .id-card-lanyard {
-    width: 220px;
-    height: 330px;
-    padding: 16px;
-  }
-  .id-card-lanyard .photo {
-    width: 80px;
-    height: 80px;
-  }
-  .id-card-lanyard .card-name {
-    font-size: 16px;
-  }
-  .lanyard-rope {
-    height: 80px;
-    top: -40px;
-  }
-  .lanyard-knot {
-    top: 40px;
-  }
-}
-
+  /* Audio Player */
   .audio-player-btn {
     position: fixed;
     bottom: 24px;
@@ -355,6 +122,7 @@
     100% { transform: scaleY(1); }
   }
 
+  /* Typing Effect */
   .typing-cursor,
   .typing-cursor-desc {
     display: inline-block;
@@ -371,15 +139,352 @@
     50% { opacity: 0; }
   }
 
-  .typing-cursor {
-    height: 1.1em;
-    background: #ffffff;
+  .typing-cursor { height: 1.1em; background: #ffffff; }
+  .typing-cursor-desc { height: 1.2em; background: #9ca3af; }
+
+  /* Lanyard Card */
+  .lanyard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    perspective: 1200px;
+    padding: 40px 20px;
   }
 
-  .typing-cursor-desc {
-    height: 1.2em;
-    background: #9ca3af;
+  .lanyard-card-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    transition: transform 0.1s ease-out;
+    will-change: transform;
   }
+
+  .lanyard-card-wrapper:active { cursor: grabbing; }
+  .lanyard-card-wrapper.dragging { cursor: grabbing; transition: none; }
+
+  .lanyard-rope {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 120px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0.02));
+    z-index: 1;
+  }
+
+  .lanyard-rope::before,
+  .lanyard-rope::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.12), transparent);
+    border-radius: 2px;
+  }
+
+  .lanyard-rope::before { left: -6px; transform: rotate(-6deg); transform-origin: top; }
+  .lanyard-rope::after { right: -6px; transform: rotate(6deg); transform-origin: top; }
+
+  .lanyard-knot {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 14px;
+    z-index: 2;
+  }
+
+  .lanyard-knot span {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .id-card-lanyard {
+    position: relative;
+    width: 260px;
+    height: 380px;
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 80px rgba(99,102,241,0.04);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 3;
+  }
+
+  .id-card-lanyard::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent, rgba(255,255,255,0.03));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .id-card-lanyard .glow-effect {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 20%, rgba(99,102,241,0.05), transparent 60%);
+    pointer-events: none;
+    animation: glowFloat 4s ease-in-out infinite;
+  }
+
+  @keyframes glowFloat {
+    0%, 100% { opacity: 0.5; transform: scale(1) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.1) rotate(3deg); }
+  }
+
+  .id-card-lanyard .photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    overflow: hidden;
+    margin-top: 10px;
+    flex-shrink: 0;
+    box-shadow: 0 0 40px rgba(99,102,241,0.08);
+  }
+
+  .id-card-lanyard .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .id-card-lanyard .card-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .id-card-lanyard .card-role {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  .id-card-lanyard .divider {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+    margin: 10px 0;
+  }
+
+  .id-card-lanyard .card-id {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 2px;
+    font-family: 'Inter', monospace;
+  }
+
+  .id-card-lanyard .badge-icon {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.08);
+    letter-spacing: 1px;
+    font-weight: 300;
+  }
+
+  .id-card-lanyard .card-line {
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.04), transparent);
+  }
+
+  .id-card-lanyard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 25px 70px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 100px rgba(99,102,241,0.06);
+  }
+
+  @media (max-width: 640px) {
+    .id-card-lanyard { width: 220px; height: 330px; padding: 16px; }
+    .id-card-lanyard .photo { width: 80px; height: 80px; }
+    .id-card-lanyard .card-name { font-size: 16px; }
+    .lanyard-rope { height: 80px; top: -40px; }
+    .lanyard-knot { top: 40px; }
+  }
+
+  .liquid-glass-dark {
+    position: relative;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(255, 255, 255, 0.02), 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .liquid-shimmer-dark {
+    background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.02) 20%, rgba(255,255,255,0.04) 40%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0.02) 80%, transparent 100%);
+    background-size: 300% 100%;
+    animation: shimmerMoveDark 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes shimmerMoveDark { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+  .liquid-glass-dark::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.01) 75%, rgba(255,255,255,0.03) 100%);
+    background-size: 400% 400%;
+    animation: liquidGradientDark 10s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes liquidGradientDark { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  .liquid-glass-dark::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02), rgba(255,255,255,0.1));
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderGlowDark 6s ease-in-out infinite;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .liquid-glass-dark:hover::after { opacity: 1; }
+
+  @keyframes borderGlowDark { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  .liquid-glass-dark:hover {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,255,255,0.02), 0 8px 40px rgba(0,0,0,0.6), 0 0 80px rgba(255,255,255,0.03);
+  }
+
+  .tech-badge { background: rgba(255,255,255,0.04); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.06); }
+  .tech-badge:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+
+  .cbox-wrapper {
+    position: relative;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.4), 0 0 80px rgba(99,102,241,0.03);
+    transition: all 0.4s ease;
+  }
+
+  .cbox-wrapper:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 40px rgba(0,0,0,0.5), 0 0 100px rgba(99,102,241,0.05); border-color: rgba(255,255,255,0.1); }
+
+  .cbox-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -100%;
+    width: 300%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(99,102,241,0.3), rgba(255,255,255,0.1), rgba(99,102,241,0.3), transparent);
+    animation: shimmerBorder 4s ease-in-out infinite;
+    z-index: 5;
+  }
+
+  @keyframes shimmerBorder { 0% { transform: translateX(0%); } 100% { transform: translateX(50%); } }
+
+  .cbox-iframe { position: relative; z-index: 1; background: transparent !important; border-radius: 12px !important; width: 100% !important; height: 450px !important; }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;transition:background-color .3s,color .3s;background:#0a0a0a;color:#e5e7eb}
+  h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif}
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:#ffffff;border-radius:99px}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .5s cubic-bezier(0.4,0,0.2,1),transform .5s cubic-bezier(0.4,0,0.2,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+  .nl{position:relative}
+  .nl::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:#ffffff;transition:width .3s}
+  .nl:hover::after,.nl.active::after{width:100%}
+  .nl.active{color:#ffffff;font-weight:600}
+
+  .shimmer{position:relative;overflow:hidden}
+  .shimmer::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transform:skewX(-20deg);transition:left .5s}
+  .shimmer:hover::after{left:160%}
+
+  .card-hover{transition:all .3s cubic-bezier(0.4,0,0.2,1)}
+  .card-hover:hover{transform:translateY(-4px);box-shadow:0 20px 30px -12px rgba(255,255,255,0.15)}
+
+  .profile-glow{animation:glow 2s ease-in-out infinite}
+  @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.3)}50%{box-shadow:0 0 0 16px rgba(255,255,255,0)}}
+
+  [x-cloak]{display:none!important}
+
+  .bg-blur-circle{position:absolute;border-radius:9999px;filter:blur(90px);pointer-events:none}
+  .bg-grid-pattern{background-image:linear-gradient(to right,rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:26px 26px}
+
+  .skill-icon{width:56px;height:56px;object-fit:contain;transition:transform .3s}
+  .skill-icon:hover{transform:scale(1.12)}
+
+  .stat-number{font-size:2.5rem;font-weight:700;color:#ffffff;line-height:1.2}
+  @media (min-width:768px){.stat-number{font-size:3rem}}
+
+  .badge-pill{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.12);color:#ffffff;border:1px solid rgba(255,255,255,0.15)}
+
+  .tab-btn{color:#9ca3af;padding:0.5rem 1rem;border-radius:9999px;transition:all .3s;cursor:pointer;font-size:0.875rem;font-weight:500}
+  .tab-btn:hover{color:#fff;background:rgba(255,255,255,0.05)}
+  .tab-btn.active{color:#fff;background:rgba(255,255,255,0.15)}
+
+  .project-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.5rem;transition:all .3s}
+  .project-card:hover{border-color:rgba(255,255,255,0.3);transform:translateY(-3px)}
+
+  .cert-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.25rem;text-align:center;transition:all .3s}
+  .cert-card:hover{border-color:rgba(255,255,255,0.3);transform:translateY(-3px)}
+
+  .tech-badge{display:inline-block;padding:0.4rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.05);color:#d1d5db;border:1px solid rgba(255,255,255,0.06);transition:all .3s}
+  .tech-badge:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);color:#fff}
+
+  .contact-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.25rem;transition:all .3s}
+  .contact-card:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.06)}
+
+  .section-title{font-size:2rem;font-weight:700;letter-spacing:-0.02em}
+  @media (min-width:768px){.section-title{font-size:2.5rem}}
 </style>
 </head>
 
@@ -395,6 +500,7 @@
   <div class="absolute inset-0 bg-grid-pattern"></div>
 </div>
 
+<!-- ===== AUDIO PLAYER ===== -->
 <audio id="bgAudio" loop preload="auto">
   <source src="audiox.mp3" type="audio/mpeg">
 </audio>
@@ -407,8 +513,30 @@
   </span>
 </button>
 
-<header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
-  :class="scrolled ? 'bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'">
+<!-- ===== LANYARD CARD ===== -->
+<div class="lanyard-container">
+  <div class="lanyard-card-wrapper" id="lanyardCard">
+    <div class="lanyard-rope"></div>
+    <div class="lanyard-knot">
+      <span></span>
+      <span></span>
+    </div>
+    <div class="id-card-lanyard">
+      <div class="glow-effect"></div>
+      <div class="photo">
+        <img src="https://i.top4top.io/p_3865clipv1.jpg" alt="Afrizal Maulana">
+      </div>
+      <div class="card-name">Afrizal Maulana</div>
+      <div class="card-role">Developer &amp; Programmer</div>
+      <div class="divider"></div>
+      <div class="card-id">#ID-2026-001</div>
+      <div class="card-line"></div>
+      <div class="badge-icon">● VERIFIED</div>
+    </div>
+  </div>
+</div>
+
+<header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" :class="scrolled ? 'bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'">
   <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="index.html" class="font-display font-bold text-xl tracking-tight group flex items-center gap-2">
       <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-sm">X</span>
@@ -447,50 +575,11 @@
       <li class="pt-2"><a href="#contact" @click="mobileMenu=false" class="inline-flex bg-white text-black px-6 py-2.5 rounded-full text-center justify-center w-full">Hire Me</a></li>
     </ul>
   </div>
-  
-  <!-- ===== LANYARD ID CARD ===== -->
-<div class="lanyard-container">
-  <div class="lanyard-card-wrapper" id="lanyardCard">
-    
-    <!-- Tali -->
-    <div class="lanyard-rope"></div>
-    <div class="lanyard-knot">
-      <span></span>
-      <span></span>
-    </div>
-    
-    <!-- ID Card -->
-    <div class="id-card-lanyard">
-      <div class="glow-effect"></div>
-      
-      <!-- Foto Profil -->
-      <div class="photo">
-        <img src="https://i.top4top.io/p_3865clipv1.jpg" alt="Afrizal Maulana">
-      </div>
-      
-      <!-- Nama -->
-      <div class="card-name">Afrizal Maulana</div>
-      
-      <!-- Role -->
-      <div class="card-role">Developer &amp; Programmer</div>
-      
-      <div class="divider"></div>
-      
-      <!-- ID Number -->
-      <div class="card-id">#ID-2026-001</div>
-      
-      <div class="card-line"></div>
-      
-      <div class="badge-icon">● VERIFIED</div>
-    </div>
-    
-  </div>
-</div>
-
 </header>
 
 <main>
 
+<!-- ===== HERO ===== -->
 <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
   <div class="relative z-10 max-w-6xl mx-auto px-6 py-16 w-full">
     <div class="grid md:grid-cols-5 gap-12 items-center">
@@ -524,17 +613,7 @@
       </div>
       
       <div class="reveal d2 md:col-span-2 flex justify-center">
-        <div class="relative" 
-             x-data="dragCard()" 
-             x-ref="cardContainer"
-             :style="`transform: translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${scale}); transition: ${isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'}; cursor: ${isDragging ? 'grabbing' : 'grab'};`"
-             @mousedown="startDrag"
-             @touchstart="startDrag"
-             @mousemove="onDrag"
-             @touchmove="onDrag"
-             @mouseup="endDrag"
-             @touchend="endDrag"
-             @mouseleave="endDrag">
+        <div class="relative" x-data="dragCard()" x-ref="cardContainer" :style="`transform: translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${scale}); transition: ${isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'}; cursor: ${isDragging ? 'grabbing' : 'grab'};`" @mousedown="startDrag" @touchstart="startDrag" @mousemove="onDrag" @touchmove="onDrag" @mouseup="endDrag" @touchend="endDrag" @mouseleave="endDrag">
           
           <div class="relative rounded-[2.5rem] p-6 w-72 md:w-80 overflow-hidden">
             <div class="absolute inset-0 rounded-[2.5rem] liquid-glass-dark">
@@ -582,6 +661,7 @@
   </div>
 </section>
 
+<!-- ===== ABOUT ===== -->
 <section id="about" class="py-20 md:py-28 border-t border-white/5">
   <div class="max-w-6xl mx-auto px-6">
     <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -628,6 +708,7 @@
   </div>
 </section>
 
+<!-- ===== PORTFOLIO ===== -->
 <section id="portfolio" class="py-20 md:py-28 border-t border-white/5">
   <div class="max-w-6xl mx-auto px-6">
     <div class="text-center mb-12">
@@ -656,10 +737,7 @@
         
         <a href="https://afrizal-dex.vercel.app" target="_blank" class="project-card group block hover:no-underline">
           <div class="relative overflow-hidden rounded-xl mb-3">
-            <img src="https://api.screenshotone.com/take?url=https://afrizal-dex.vercel.app&access_key=JKyRkNrNSuLQrw&viewport_width=1280&viewport_height=720&image_quality=85&cache_ttl=86400" 
-                 alt="Afrizal Dex" 
-                 class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
-                 loading="lazy">
+            <img src="https://api.screenshotone.com/take?url=https://afrizal-dex.vercel.app&access_key=JKyRkNrNSuLQrw&viewport_width=1280&viewport_height=720&image_quality=85&cache_ttl=86400" alt="Afrizal Dex" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
             </div>
@@ -680,10 +758,7 @@
 
         <a href="https://wanto-profile.vercel.app" target="_blank" class="project-card group block hover:no-underline">
           <div class="relative overflow-hidden rounded-xl mb-3">
-            <img src="https://api.screenshotone.com/take?url=https://wanto-profile.vercel.app&access_key=JKyRkNrNSuLQrw&viewport_width=1280&viewport_height=720&image_quality=85&cache_ttl=86400" 
-                 alt="Wanto Profile" 
-                 class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
-                 loading="lazy">
+            <img src="https://api.screenshotone.com/take?url=https://wanto-profile.vercel.app&access_key=JKyRkNrNSuLQrw&viewport_width=1280&viewport_height=720&image_quality=85&cache_ttl=86400" alt="Wanto Profile" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
             </div>
@@ -785,6 +860,7 @@
   </div>
 </section>
 
+<!-- ===== CONTACT ===== -->
 <section id="contact" class="py-20 md:py-28 border-t border-white/5">
   <div class="max-w-6xl mx-auto px-6">
 
@@ -898,19 +974,7 @@
           <div class="cbox-wrapper relative rounded-xl overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/5">
             <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/50 to-transparent z-10"></div>
             
-            <iframe 
-              src="https://www5.cbox.ws/box/?boxid=965000&boxtag=gdVbkl" 
-              width="100%" 
-              height="450" 
-              allowtransparency="yes" 
-              allow="autoplay" 
-              frameborder="0" 
-              marginheight="0" 
-              marginwidth="0" 
-              scrolling="auto"
-              class="cbox-iframe"
-              style="background: transparent; display: block;"
-            ></iframe>
+            <iframe src="https://www5.cbox.ws/box/?boxid=965000&boxtag=gdVbkl" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto" class="cbox-iframe" style="background: transparent; display: block;"></iframe>
             
             <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
           </div>
@@ -935,6 +999,9 @@
 
 </main>
 
+<script src="js/main.js"></script>
+
+<!-- ===== AUDIO SCRIPT ===== -->
 <script>
   const audio = document.getElementById('bgAudio');
   const btn = document.getElementById('audioToggle');
@@ -969,6 +1036,7 @@
   document.addEventListener('touchstart', startAudio, { once: true, passive: true });
 </script>
 
+<!-- ===== TYPING SCRIPT ===== -->
 <script>
   const nameText = "Afrizal Maulana";
   const descText = "A passionate developer and programmer creating digital solutions through innovative code.";
@@ -1013,8 +1081,8 @@
   setTimeout(typeName, 500);
 </script>
 
+<!-- ===== LANYARD DRAG SCRIPT ===== -->
 <script>
-  // ===== LANYARD DRAG =====
   (function() {
     const card = document.getElementById('lanyardCard');
     if (!card) return;
@@ -1041,14 +1109,12 @@
       currentX = touch.clientX - startX;
       currentY = touch.clientY - startY;
       
-      // Rotasi berdasarkan posisi
       rotateY = currentX * 0.03;
       rotateX = -currentY * 0.03;
       
       if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         card.style.transform = `translate(${currentX * 0.6}px, ${currentY * 0.6}px) rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-        // Tali ikut bergerak
         const rope = document.querySelector('.lanyard-rope');
         const knot = document.querySelector('.lanyard-knot');
         if (rope) {
@@ -1066,7 +1132,6 @@
       card.classList.remove('dragging');
       card.style.transition = 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
       
-      // Kembali ke posisi awal
       card.style.transform = 'translate(0, 0) rotateY(0deg) rotateX(0deg)';
       currentX = 0;
       currentY = 0;
@@ -1098,12 +1163,11 @@
     document.addEventListener('touchmove', onMove, { passive: false });
     document.addEventListener('touchend', onEnd);
 
-    // Hover
     card.addEventListener('mouseenter', () => {
       card.style.cursor = 'grab';
     });
   })();
 </script>
-<script src="js/main.js"></script>
+
 </body>
 </html>
