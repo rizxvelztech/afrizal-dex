@@ -703,26 +703,40 @@
       showTooltip: false,
       tooltipTimeout: null,
       audio: null,
+      started: false,  // <-- TAMBAHKAN INI
       
       init() {
         this.audio = document.getElementById('bgAudio');
         this.btn = document.getElementById('audioToggle');
         this.tooltip = document.getElementById('audioTooltip');
         
-        // ===== AUTO PLAY =====
-        // Coba play otomatis saat halaman dimuat
-        // Browser akan mengizinkan jika user sudah interaksi
-        setTimeout(() => {
-          this.tryAutoPlay();
-        }, 500);
+        // ===== AUTO PLAY SAAT SCROLL ATAU KLIK =====
+        const startAudio = () => {
+          if (this.started) return;
+          if (!this.audio) return;
+          
+          this.audio.play().then(() => {
+            this.isPlaying = true;
+            this.started = true;
+            console.log('🎵 Audio started by scroll/click!');
+          }).catch(err => {
+            console.log('Audio play failed:', err);
+          });
+        };
         
-        // Juga coba play saat user klik di mana saja (fallback)
-        document.addEventListener('click', () => {
-          if (!this.isPlaying && this.audio) {
-            this.tryAutoPlay();
-          }
-        }, { once: false });
+        // Scroll
+        window.addEventListener('scroll', startAudio, { once: true, passive: true });
         
+        // Klik
+        document.addEventListener('click', startAudio, { once: true });
+        
+        // Touch (mobile)
+        document.addEventListener('touchstart', startAudio, { once: true, passive: true });
+        
+        // Keydown (tekan keyboard)
+        document.addEventListener('keydown', startAudio, { once: true });
+        
+        // ===== SISA KODE YANG SUDAH ADA =====
         // Handle visibility tooltip
         if (this.btn) {
           this.btn.addEventListener('mouseenter', () => {
@@ -735,23 +749,11 @@
             }, 1000);
           });
         }
-      },
-      
-      tryAutoPlay() {
-        const audio = this.audio;
-        if (!audio) return;
         
-        if (audio.paused) {
-          audio.play().then(() => {
-            this.isPlaying = true;
-            console.log('Audio autoplay success!');
-          }).catch(err => {
-            console.log('Autoplay blocked. Click anywhere to play.');
-            // Biarkan user klik tombol manual
-          });
-        }
+        console.log('🔊 Audio akan play saat scroll, klik, atau sentuh!');
       },
       
+      // ===== TAMBAHKAN FUNGSI TOGGLE =====
       toggleAudio() {
         const audio = this.audio;
         if (!audio) return;
@@ -759,6 +761,7 @@
         if (audio.paused) {
           audio.play().then(() => {
             this.isPlaying = true;
+            this.started = true;
           }).catch(err => {
             console.log('Play failed:', err);
           });
