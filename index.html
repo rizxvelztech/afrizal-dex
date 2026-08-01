@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" x-data="app()" :class="{'dark':dark}" class="scroll-smooth">
 <head>
-<script>
-  window.addEventListener('load', function() {
-    document.body.style.opacity = '1';
-  });
-  document.addEventListener('DOMContentLoaded', function() {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-  });
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="description" content="Afrizal Maulana - Developer & Programmer Portfolio">
@@ -632,6 +623,16 @@
   }
 
   setTimeout(typeName, 500);
+</script>
+
+<script>
+  window.addEventListener('load', function() {
+    document.body.style.opacity = '1';
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+  });
 </script>
 
 <script src="js/main.js"></script>
