@@ -14,7 +14,6 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-/* ===== LOADING SCREEN ===== */
 #loadingScreen {
   position: fixed;
   inset: 0;
@@ -224,7 +223,6 @@ body.loading { overflow: hidden; }
 </head>
 <body class="loading">
 
-<!-- ===== LOADING SCREEN ===== -->
 <div id="loadingScreen">
   <div class="loading-bg">
     <div class="loading-bg-circle"></div>
@@ -252,13 +250,9 @@ body.loading { overflow: hidden; }
   </div>
 </div>
 
-<!-- ===== KONTEN UTAMA ===== -->
-<div style="display:none;" id="mainContent">
-<!-- semua konten portfolio di sini -->
-</div>
+<div style="display:none;" id="mainContent"></div>
 
 <script>
-// ===== LOADING SCRIPT =====
 (function() {
   const loadingScreen = document.getElementById('loadingScreen');
   const mainContent = document.getElementById('mainContent');
@@ -308,294 +302,586 @@ body.loading { overflow: hidden; }
         document.body.classList.remove('loading');
         mainContent.style.display = 'block';
         document.body.style.overflow = '';
-        // Load konten utama setelah loading selesai
         loadMainContent();
       }, 500);
     }
   }
 
   function loadMainContent() {
-    // Ini akan diisi dengan konten utama
     mainContent.innerHTML = `
-      <!-- ===== HERO SECTION ===== -->
-      <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
-        <div class="relative z-10 max-w-6xl mx-auto px-6 py-16 w-full">
-          <div class="grid md:grid-cols-5 gap-12 items-center">
-            <div class="md:col-span-3">
-              <div class="inline-flex items-center gap-2 badge-pill mb-6">
-                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span></span>
-                Available for work
-              </div>
-              <p class="text-sm font-semibold text-white tracking-wider uppercase mb-2">Hi, I'm</p>
-              <h1 class="font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-tight mb-4 text-white">
-                <span class="bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Afrizal Maulana</span>
-              </h1>
-              <p class="text-lg md:text-xl text-zinc-400 leading-relaxed mb-6 max-w-lg">
-                A passionate developer and programmer creating digital solutions through innovative code.
-              </p>
-              <div class="grid grid-cols-3 gap-6 mb-8 max-w-md">
-                <div><div class="stat-number text-3xl md:text-4xl font-bold text-white">2+</div><div class="text-xs text-zinc-500 font-medium">Years Experience</div></div>
-                <div><div class="stat-number text-3xl md:text-4xl font-bold text-white">99+</div><div class="text-xs text-zinc-500 font-medium">Projects Done</div></div>
-                <div><div class="stat-number text-3xl md:text-4xl font-bold text-white">99+</div><div class="text-xs text-zinc-500 font-medium">Happy Clients</div></div>
-              </div>
-              <div class="flex flex-wrap gap-4">
-                <a href="#portfolio" class="shimmer inline-flex items-center gap-2 bg-white hover:bg-zinc-200 text-black font-medium px-6 py-3 rounded-full transition-all text-sm hover:scale-105 shadow-lg shadow-white/20">
-                  View Portfolio <i class="fas fa-arrow-right text-xs"></i>
-                </a>
-                <a href="projects.html" class="inline-flex items-center gap-2 border border-white/10 px-6 py-3 rounded-full hover:border-white hover:bg-white/5 transition-all text-sm">
-                  <i class="fas fa-code text-xs"></i> All Projects
-                </a>
-              </div>
-            </div>
-            
-            <div class="md:col-span-2 flex justify-center">
-              <div class="relative rounded-[2.5rem] p-6 w-72 md:w-80 overflow-hidden">
-                <div class="absolute inset-0 rounded-[2.5rem] liquid-glass-dark">
-                  <div class="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-white/[0.01]"></div>
-                  <div class="absolute inset-0 liquid-shimmer-dark"></div>
-                </div>
-                <div class="absolute inset-0 rounded-[2.5rem] border border-white/[0.06] pointer-events-none"></div>
-                <div class="relative z-10">
-                  <div class="relative w-full aspect-square rounded-2xl overflow-hidden border-2 border-white/30 profile-glow">
-                    <img src="https://i.top4top.io/p_3865clipv1.jpg" alt="Afrizal Maulana" class="w-full h-full object-cover">
-                  </div>
-                  <div class="text-center mt-4">
-                    <h3 class="font-display font-bold text-xl text-white">Afrizal Maulana</h3>
-                    <p class="text-sm text-white font-medium">Developer & Programmer</p>
-                  </div>
-                  <div class="flex justify-center gap-3 mt-4">
-                    <a href="#" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white transition-all"><i class="fab fa-github text-xs"></i></a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white transition-all"><i class="fab fa-linkedin-in text-xs"></i></a>
-                    <a href="#" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white transition-all"><i class="fab fa-instagram text-xs"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+  <div class="absolute inset-0">
+    <div class="bg-blur-circle top-10 left-10 w-40 h-40 md:w-56 md:h-56 bg-white opacity-20"></div>
+    <div class="bg-blur-circle top-10 right-10 w-40 h-40 md:w-56 md:h-56 bg-zinc-400 opacity-15"></div>
+    <div class="bg-blur-circle bottom-10 left-10 w-44 h-44 md:w-60 md:h-60 bg-zinc-500 opacity-20"></div>
+    <div class="bg-blur-circle bottom-10 right-10 w-40 h-40 md:w-56 md:h-56 bg-white opacity-10"></div>
+  </div>
+  <div class="absolute inset-0 bg-grid-pattern"></div>
+</div>
+
+<audio id="bgAudio" loop preload="auto">
+  <source src="audiox.mp3" type="audio/mpeg">
+</audio>
+
+<button id="audioToggle" class="audio-player-btn" onclick="toggleAudio()">
+  <span class="pulse-ring"></span>
+  <span class="music-icon"><i class="fas fa-music"></i></span>
+  <span class="sound-wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </span>
+</button>
+
+<header class="fixed inset-x-0 top-0 z-50 transition-all duration-300 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="font-display font-bold text-xl tracking-tight group flex items-center gap-2">
+      <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-sm">X</span>
+      <span class="text-white">Dex-</span>
+      <span class="text-white">Afrizal</span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <li><a href="#about" class="nl text-zinc-400 hover:text-white transition active:text-white">About</a></li>
+      <li><a href="#portfolio" class="nl text-zinc-400 hover:text-white transition">Portfolio</a></li>
+      <li><a href="projects.html" class="nl text-zinc-400 hover:text-white transition">Projects</a></li>
+      <li><a href="#contact" class="nl text-zinc-400 hover:text-white transition">Contact</a></li>
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <button class="w-9 h-9 flex items-center justify-center rounded-full border border-white/10 hover:bg-white/5 transition">
+        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      </button>
+      <a href="#contact" class="hidden md:inline-flex shimmer items-center gap-2 bg-white hover:bg-zinc-200 text-black text-sm font-medium px-5 py-2 rounded-full transition-all hover:scale-105">
+        Hire Me <i class="fas fa-arrow-right text-xs"></i>
+      </a>
+      <button class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-white/10 hover:bg-white/5">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+  <div class="relative z-10 max-w-6xl mx-auto px-6 py-16 w-full">
+    <div class="grid md:grid-cols-5 gap-12 items-center">
+      <div class="md:col-span-3">
+        <div class="reveal inline-flex items-center gap-2 badge-pill mb-6">
+          <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span></span>
+          Available for work
         </div>
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce opacity-60">
-          <a href="#about" class="block w-5 h-8 border border-white/50 rounded-full relative">
-            <span class="absolute top-2 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full"></span>
+        <p class="reveal text-sm font-semibold text-white tracking-wider uppercase mb-2">Hi, I'm</p>
+        <h1 class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-tight mb-4 text-white">
+          <span id="typing-name" class="bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent"></span>
+          <span class="typing-cursor">|</span>
+        </h1>
+        <p class="reveal d2 text-lg md:text-xl text-zinc-400 leading-relaxed mb-6 max-w-lg">
+          <span id="typing-desc"></span>
+          <span class="typing-cursor-desc">|</span>
+        </p>
+        <div class="reveal d3 grid grid-cols-3 gap-6 mb-8 max-w-md">
+          <div><div class="stat-number" x-text="'2+'">2+</div><div class="text-xs text-zinc-500 font-medium">Years Experience</div></div>
+          <div><div class="stat-number" x-text="'99+'">99+</div><div class="text-xs text-zinc-500 font-medium">Projects Done</div></div>
+          <div><div class="stat-number" x-text="'99+'">99+</div><div class="text-xs text-zinc-500 font-medium">Happy Clients</div></div>
+        </div>
+        <div class="reveal d4 flex flex-wrap gap-4">
+          <a href="#portfolio" class="shimmer inline-flex items-center gap-2 bg-white hover:bg-zinc-200 text-black font-medium px-6 py-3 rounded-full transition-all text-sm hover:scale-105 shadow-lg shadow-white/20">
+            View Portfolio <i class="fas fa-arrow-right text-xs"></i>
+          </a>
+          <a href="projects.html" class="inline-flex items-center gap-2 border border-white/10 px-6 py-3 rounded-full hover:border-white hover:bg-white/5 transition-all text-sm">
+            <i class="fas fa-code text-xs"></i> All Projects
           </a>
         </div>
-      </section>
-
-      <!-- ===== ABOUT SECTION ===== -->
-      <section id="about" class="py-20 md:py-28 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-6">
-          <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="text-center">
-              <div class="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 mx-auto rounded-full border-2 border-white/30 overflow-hidden profile-glow">
-                <img src="https://b.top4top.io/p_38651is3w1.jpg" alt="Afrizal Maulana" class="w-full h-full object-cover">
-              </div>
-              <h2 class="font-display font-bold text-2xl md:text-3xl text-white mt-4">Afrizal Maulana</h2>
+      </div>
+      
+      <div class="reveal d2 md:col-span-2 flex justify-center">
+        <div class="relative rounded-[2.5rem] p-6 w-72 md:w-80 overflow-hidden">
+          <div class="absolute inset-0 rounded-[2.5rem] liquid-glass-dark">
+            <div class="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-white/[0.02] to-white/[0.01]"></div>
+            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent"></div>
+            <div class="absolute inset-0 liquid-shimmer-dark"></div>
+          </div>
+          <div class="absolute inset-0 rounded-[2.5rem] border border-white/[0.06] pointer-events-none"></div>
+          <div class="relative z-10">
+            <div class="relative w-full aspect-square rounded-2xl overflow-hidden border-2 border-white/30 profile-glow">
+              <img src="https://i.top4top.io/p_3865clipv1.jpg" alt="Afrizal Maulana" class="w-full h-full object-cover" loading="eager">
+            </div>
+            <div class="text-center mt-4">
+              <h3 class="font-display font-bold text-xl text-white">Afrizal Maulana</h3>
               <p class="text-sm text-white font-medium">Developer & Programmer</p>
             </div>
+            <div class="flex justify-center gap-3 mt-4">
+              <a href="#" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white transition-all">
+                <i class="fab fa-github text-xs"></i>
+              </a>
+              <a href="#" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white transition-all">
+                <i class="fab fa-linkedin-in text-xs"></i>
+              </a>
+              <a href="#" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white transition-all">
+                <i class="fab fa-instagram text-xs"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce opacity-60">
+    <a href="#about" class="block w-5 h-8 border border-white/50 rounded-full relative">
+      <span class="absolute top-2 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full"></span>
+    </a>
+  </div>
+</section>
+
+<section id="about" class="py-20 md:py-28 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="order-1 md:order-1 text-center">
+        <div class="relative max-w-sm mx-auto">
+          <div class="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 mx-auto rounded-full border-2 border-white/30 overflow-hidden profile-glow">
+            <img src="https://b.top4top.io/p_38651is3w1.jpg" alt="Afrizal Maulana" class="w-full h-full object-cover">
+          </div>
+          <h2 class="font-display font-bold text-2xl md:text-3xl text-white mt-4">Afrizal Maulana</h2>
+          <p class="text-sm text-white font-medium">Developer & Programmer</p>
+        </div>
+      </div>
+
+      <div class="order-2 md:order-2">
+        <p class="reveal d2 text-zinc-400 leading-relaxed mb-4">
+          I'm <strong class="text-white">Afrizal Maulana</strong>, a <strong class="text-white">14</strong>-year-old programming enthusiast <span class="text-xs text-zinc-500">(born May 12, 2011)</span> with a strong passion for technology and software development.
+        </p>
+        <p class="reveal d3 text-zinc-400 leading-relaxed mb-6">
+          My journey in programming started with curiosity about how websites and apps work, which has grown into a serious commitment to mastering the craft.
+        </p>
+        
+        <div class="flex flex-wrap gap-4">
+          <a href="#portfolio" class="inline-flex items-center gap-2 border border-white/10 px-6 py-2.5 rounded-full hover:border-white hover:bg-white/5 transition-all text-sm">
+            View Projects <i class="fas fa-arrow-right text-xs"></i>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mt-8">
+          <div class="text-center">
+            <div class="stat-number text-2xl md:text-3xl">99+</div>
+            <p class="text-xs text-zinc-500 font-medium">PROJECTS</p>
+          </div>
+          <div class="text-center border-l border-r border-white/10">
+            <div class="stat-number text-2xl md:text-3xl">99+</div>
+            <p class="text-xs text-zinc-500 font-medium">CERTIFICATES</p>
+          </div>
+          <div class="text-center">
+            <div class="stat-number text-2xl md:text-3xl">99+</div>
+            <p class="text-xs text-zinc-500 font-medium">COMPLETED WORKS</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio" class="py-20 md:py-28 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 badge-pill mb-4">
+        <i class="fas fa-briefcase text-white text-sm"></i> Portfolio
+      </div>
+      <p class="reveal text-xs font-semibold text-white tracking-wider uppercase mb-2">Showcase</p>
+      <h2 class="reveal d1 font-display font-bold section-title text-white">Portfolio Showcase</h2>
+      <p class="reveal d2 text-zinc-400 mt-2 max-w-2xl mx-auto">Explore my journey through projects, certifications, and technical expertise.</p>
+    </div>
+    
+    <div class="flex flex-wrap justify-center gap-2 mb-10 bg-white/5 rounded-full p-1 max-w-md mx-auto border border-white/5">
+      <button onclick="activeTab='projects'" class="tab-btn active">Projects</button>
+      <button onclick="activeTab='certificates'" class="tab-btn">Certificates</button>
+      <button onclick="activeTab='techstack'" class="tab-btn">Tech Stack</button>
+    </div>
+    
+    <div id="projectsTab">
+      <div class="grid md:grid-cols-2 gap-6">
+        
+        <a href="https://afrizal-dex.vercel.app" target="_blank" class="project-card group block hover:no-underline">
+          <div class="relative overflow-hidden rounded-xl mb-3">
+            <img src="https://f.top4top.io/p_3865w7qha1.jpg" 
+                 alt="Afrizal Dex" 
+                 class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
+                 loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
             <div>
-              <p class="text-zinc-400 leading-relaxed mb-4">
-                I'm <strong class="text-white">Afrizal Maulana</strong>, a <strong class="text-white">14</strong>-year-old programming enthusiast <span class="text-xs text-zinc-500">(born May 12, 2011)</span> with a strong passion for technology and software development.
-              </p>
-              <p class="text-zinc-400 leading-relaxed mb-6">
-                My journey in programming started with curiosity about how websites and apps work, which has grown into a serious commitment to mastering the craft.
-              </p>
-              <div class="flex flex-wrap gap-4">
-                <a href="#portfolio" class="inline-flex items-center gap-2 border border-white/10 px-6 py-2.5 rounded-full hover:border-white hover:bg-white/5 transition-all text-sm">
-                  View Projects <i class="fas fa-arrow-right text-xs"></i>
-                </a>
+              <h3 class="font-display font-semibold text-lg text-white group-hover:text-accent transition">Afrizal Dex</h3>
+              <p class="text-sm text-zinc-400">Personal portfolio website</p>
+            </div>
+            <span class="text-xs text-zinc-500 group-hover:text-accent transition"><i class="fas fa-arrow-right"></i></span>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="tech-badge text-xs">Portfolio</span>
+            <span class="tech-badge text-xs">Website</span>
+          </div>
+        </a>
+
+        <a href="https://himura.co.id" target="_blank" class="project-card group block hover:no-underline">
+          <div class="relative overflow-hidden rounded-xl mb-3">
+            <img src="https://g.top4top.io/p_38656uf5l1.jpg" 
+                 alt="Himura" 
+                 class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
+                 loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-display font-semibold text-lg text-white group-hover:text-accent transition">Himura</h3>
+              <p class="text-sm text-zinc-400">Personal profile website</p>
+            </div>
+            <span class="text-xs text-zinc-500 group-hover:text-accent transition"><i class="fas fa-arrow-right"></i></span>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <span class="tech-badge text-xs">Profile</span>
+            <span class="tech-badge text-xs">Business</span>
+          </div>
+        </a>
+
+      </div>
+      <div class="text-center mt-6">
+        <a href="projects.html" class="inline-flex items-center gap-2 text-white hover:text-zinc-300 transition text-sm font-medium">
+          View All Projects <i class="fas fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+    </div>
+    
+    <div id="certificatesTab" style="display:none;">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center hover:border-white/30 transition-all">
+          <img src="https://a.top4top.io/p_3865ot5ky1.jpg" alt="Google Cybersecurity Certificate" class="rounded-xl w-full max-w-[300px] border border-white/10 mb-4">
+          <h4 class="font-semibold text-white">Foundations of Cybersecurity</h4>
+          <p class="text-sm text-zinc-400 mt-1">Google — Coursera</p>
+          <p class="text-xs text-zinc-500 mt-1">Afrizal Maulana Herwanto</p>
+          <div class="flex flex-wrap justify-center gap-2 mt-3">
+            <span class="tech-badge text-xs"><i class="fas fa-calendar-alt mr-1"></i> Jan 6, 2024</span>
+            <span class="tech-badge text-xs"><i class="fas fa-certificate mr-1"></i> Google</span>
+          </div>
+          <a href="https://coursera.org/verify/W2OSHHE47KEE" target="_blank" class="text-xs text-white/60 hover:text-white transition mt-2">
+            <i class="fas fa-external-link-alt mr-1"></i> Verify Certificate
+          </a>
+        </div>
+
+        <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center hover:border-white/30 transition-all">
+          <img src="https://f.top4top.io/p_3801k9pcf1.jpg" alt="Certificate" class="rounded-xl w-full max-w-[300px] border border-white/10 mb-4">
+          <h4 class="font-semibold text-white">Algonova Social Media Competition 2025</h4>
+          <p class="text-sm text-zinc-400 mt-1">Official certificate — Afrizal Maulana Herwanto</p>
+          <div class="flex flex-wrap justify-center gap-2 mt-3">
+            <span class="tech-badge text-xs"><i class="fas fa-calendar-alt mr-1"></i> 2025</span>
+            <span class="tech-badge text-xs"><i class="fas fa-certificate mr-1"></i> No. 25012/SMC/001/2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="techstackTab" style="display:none;">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">Python</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">JavaScript</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">Java</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">C++</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">GitHub</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">HTML5</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">CSS3</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">Tailwind</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/alpinejs/alpinejs-original.svg" alt="Alpine.js" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">Alpine.js</h4>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="skill-icon mx-auto mb-2">
+          <h4 class="font-medium text-sm text-white">React</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="py-20 md:py-28 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="text-center mb-12">
+      <h1 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-3">Contact Me</h1>
+      <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto">Have something in mind? Send a message and let's connect.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 items-start">
+      <div class="md:col-span-2">
+
+        <div class="bg-white/5 rounded-2xl p-6 md:p-8 border border-white/5">
+          <h2 class="font-display font-semibold text-2xl md:text-3xl text-white mb-3">Hubungi Saya</h2>
+          <p class="text-sm text-zinc-400 mb-7">Feel free to reach out if you want to collaborate, discuss ideas, or simply say hello.</p>
+
+          <form class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-1">Your Name</label>
+              <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-1">Your Email</label>
+              <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white transition">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-1">Your Message</label>
+              <textarea rows="4" placeholder="Your Message" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white transition resize-none"></textarea>
+            </div>
+
+            <hr class="border-white/10 my-4">
+
+            <button type="submit" class="shimmer w-full inline-flex justify-center items-center gap-2 bg-white hover:bg-zinc-200 text-black font-medium px-6 py-3 rounded-xl transition-all hover:scale-[1.02]">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="md:col-span-1">
+        <div class="bg-white/5 rounded-2xl p-6 md:p-8 border border-white/5">
+          <h3 class="font-display font-semibold text-xl text-white mb-6">Connect With Me</h3>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                <i class="fab fa-linkedin-in"></i>
               </div>
-              <div class="grid grid-cols-3 gap-4 mt-8">
-                <div class="text-center"><div class="stat-number text-2xl md:text-3xl font-bold text-white">99+</div><p class="text-xs text-zinc-500 font-medium">PROJECTS</p></div>
-                <div class="text-center border-l border-r border-white/10"><div class="stat-number text-2xl md:text-3xl font-bold text-white">99+</div><p class="text-xs text-zinc-500 font-medium">CERTIFICATES</p></div>
-                <div class="text-center"><div class="stat-number text-2xl md:text-3xl font-bold text-white">99+</div><p class="text-xs text-zinc-500 font-medium">COMPLETED WORKS</p></div>
+              <div>
+                <p class="text-sm font-medium text-white">LinkedIn</p>
+                <p class="text-xs text-zinc-500">@afrizalmaulana</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                <i class="fab fa-instagram"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-white">Instagram</p>
+                <p class="text-xs text-zinc-500">@afrizal_m.h</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                <i class="fab fa-youtube"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-white">YouTube</p>
+                <p class="text-xs text-zinc-500">@youtube</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                <i class="fab fa-github"></i>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-white">GitHub</p>
+                <p class="text-xs text-zinc-500">@rizxvelztech</p>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- ===== PORTFOLIO SECTION ===== -->
-      <section id="portfolio" class="py-20 md:py-28 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-6">
-          <div class="text-center mb-12">
-            <div class="inline-flex items-center gap-2 badge-pill mb-4"><i class="fas fa-briefcase text-white text-sm"></i> Portfolio</div>
-            <p class="text-xs font-semibold text-white tracking-wider uppercase mb-2">Showcase</p>
-            <h2 class="font-display font-bold section-title text-white text-3xl md:text-4xl">Portfolio Showcase</h2>
-            <p class="text-zinc-400 mt-2 max-w-2xl mx-auto">Explore my journey through projects, certifications, and technical expertise.</p>
-          </div>
-          
-          <div class="flex flex-wrap justify-center gap-2 mb-10 bg-white/5 rounded-full p-1 max-w-md mx-auto border border-white/5">
-            <button onclick="activeTab='projects'" class="tab-btn active">Projects</button>
-            <button onclick="activeTab='certificates'" class="tab-btn">Certificates</button>
-            <button onclick="activeTab='techstack'" class="tab-btn">Tech Stack</button>
-          </div>
+    <div class="mt-16">
+      <div class="max-w-3xl mx-auto">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/5 shadow-2xl shadow-accent/5">
 
-          <div id="projectsTab">
-            <div class="grid md:grid-cols-2 gap-6">
-              <a href="https://afrizal-dex.vercel.app" target="_blank" class="project-card group block">
-                <div class="relative overflow-hidden rounded-xl mb-3">
-                  <img src="https://f.top4top.io/p_3865w7qha1.jpg" alt="Afrizal Dex" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105">
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div><h3 class="font-display font-semibold text-lg text-white">Afrizal Dex</h3><p class="text-sm text-zinc-400">Personal portfolio website</p></div>
-                  <span class="text-xs text-zinc-500"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="flex flex-wrap gap-2 mt-3">
-                  <span class="tech-badge text-xs">Portfolio</span>
-                  <span class="tech-badge text-xs">Website</span>
-                </div>
-              </a>
-              <a href="https://himura.co.id" target="_blank" class="project-card group block">
-                <div class="relative overflow-hidden rounded-xl mb-3">
-                  <img src="https://g.top4top.io/p_38656uf5l1.jpg" alt="Himura" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105">
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div><h3 class="font-display font-semibold text-lg text-white">Himura</h3><p class="text-sm text-zinc-400">Personal profile website</p></div>
-                  <span class="text-xs text-zinc-500"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="flex flex-wrap gap-2 mt-3">
-                  <span class="tech-badge text-xs">Profile</span>
-                  <span class="tech-badge text-xs">Business</span>
-                </div>
-              </a>
+          <div class="flex items-center justify-between mb-4 pb-4 border-b border-white/5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                <i class="fas fa-comments text-white text-lg"></i>
+              </div>
+              <div>
+                <h2 class="font-display font-semibold text-xl text-white">Comments</h2>
+                <p class="text-xs text-zinc-500">Leave your thoughts here</p>
+              </div>
             </div>
-            <div class="text-center mt-6">
-              <a href="projects.html" class="inline-flex items-center gap-2 text-white hover:text-zinc-300 transition text-sm font-medium">
-                View All Projects <i class="fas fa-arrow-right text-xs"></i>
-              </a>
+            <div class="flex items-center gap-2">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+              </span>
+              <span class="text-xs text-zinc-500">Live</span>
             </div>
           </div>
 
-          <div id="certificatesTab" style="display:none;">
-            <div class="grid sm:grid-cols-2 gap-6">
-              <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center">
-                <img src="https://a.top4top.io/p_3865ot5ky1.jpg" alt="Certificate" class="rounded-xl w-full max-w-[300px] border border-white/10 mb-4">
-                <h4 class="font-semibold text-white">Foundations of Cybersecurity</h4>
-                <p class="text-sm text-zinc-400 mt-1">Google — Coursera</p>
-                <p class="text-xs text-zinc-500 mt-1">Afrizal Maulana Herwanto</p>
-                <div class="flex flex-wrap justify-center gap-2 mt-3">
-                  <span class="tech-badge text-xs"><i class="fas fa-calendar-alt mr-1"></i> Jan 6, 2024</span>
-                  <span class="tech-badge text-xs"><i class="fas fa-certificate mr-1"></i> Google</span>
-                </div>
-                <a href="https://coursera.org/verify/W2OSHHE47KEE" target="_blank" class="text-xs text-white/60 hover:text-white transition mt-2">
-                  <i class="fas fa-external-link-alt mr-1"></i> Verify Certificate
-                </a>
-              </div>
-              <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center">
-                <img src="https://f.top4top.io/p_3801k9pcf1.jpg" alt="Certificate" class="rounded-xl w-full max-w-[300px] border border-white/10 mb-4">
-                <h4 class="font-semibold text-white">Algonova Social Media Competition 2025</h4>
-                <p class="text-sm text-zinc-400 mt-1">Official certificate — Afrizal Maulana Herwanto</p>
-                <div class="flex flex-wrap justify-center gap-2 mt-3">
-                  <span class="tech-badge text-xs"><i class="fas fa-calendar-alt mr-1"></i> 2025</span>
-                  <span class="tech-badge text-xs"><i class="fas fa-certificate mr-1"></i> No. 25012/SMC/001/2025</span>
-                </div>
-              </div>
-            </div>
+          <div class="cbox-wrapper relative rounded-xl overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/5">
+            <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/50 to-transparent z-10"></div>
+            
+            <iframe 
+              src="https://www5.cbox.ws/box/?boxid=965000&boxtag=gdVbkl" 
+              width="100%" 
+              height="450" 
+              allowtransparency="yes" 
+              allow="autoplay" 
+              frameborder="0" 
+              marginheight="0" 
+              marginwidth="0" 
+              scrolling="auto"
+              class="cbox-iframe"
+              style="background: transparent; display: block;"
+            ></iframe>
+            
+            <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
           </div>
 
-          <div id="techstackTab" style="display:none;">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">Python</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">JavaScript</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">Java</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">C++</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">GitHub</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">HTML5</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">CSS3</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">Tailwind</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/alpinejs/alpinejs-original.svg" alt="Alpine.js" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">Alpine.js</h4>
-              </div>
-              <div class="bg-white/5 rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="skill-icon mx-auto mb-2" style="width:56px;height:56px;">
-                <h4 class="font-medium text-sm text-white">React</h4>
-              </div>
+          <div class="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
+            <div class="flex items-center gap-4">
+              <span class="text-xs text-zinc-500">
+                <i class="fas fa-globe mr-1"></i> Global - chat
+              </span>
             </div>
+            <a href="#" class="text-xs text-zinc-500 hover:text-white transition">
+              <i class="fas fa-arrow-up mr-1"></i> Scroll to top
+            </a>
           </div>
+
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- ===== CONTACT SECTION ===== -->
-      <section id="contact" class="py-20 md:py-28 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-6">
-          <div class="text-center mb-12">
-            <h1 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-3">Contact Me</h1>
-            <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto">Have something in mind? Send a message and let's connect.</p>
-          </div>
-          <div class="grid md:grid-cols-3 gap-8 items-start">
-            <div class="md:col-span-2">
-              <div class="bg-white/5 rounded-2xl p-6 md:p-8 border border-white/5">
-                <h2 class="font-display font-semibold text-2xl md:text-3xl text-white mb-3">Hubungi Saya</h2>
-                <p class="text-sm text-zinc-400 mb-7">Feel free to reach out if you want to collaborate, discuss ideas, or simply say hello.</p>
-                <form class="space-y-4">
-                  <div><label class="block text-sm font-medium text-zinc-300 mb-1">Your Name</label><input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white transition"></div>
-                  <div><label class="block text-sm font-medium text-zinc-300 mb-1">Your Email</label><input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white transition"></div>
-                  <div><label class="block text-sm font-medium text-zinc-300 mb-1">Your Message</label><textarea rows="4" placeholder="Your Message" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white transition resize-none"></textarea></div>
-                  <hr class="border-white/10 my-4">
-                  <button type="submit" class="shimmer w-full inline-flex justify-center items-center gap-2 bg-white hover:bg-zinc-200 text-black font-medium px-6 py-3 rounded-xl transition-all hover:scale-[1.02]">Send Message</button>
-                </form>
-              </div>
-            </div>
-            <div class="md:col-span-1">
-              <div class="bg-white/5 rounded-2xl p-6 md:p-8 border border-white/5">
-                <h3 class="font-display font-semibold text-xl text-white mb-6">Connect With Me</h3>
-                <div class="space-y-4">
-                  <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-linkedin-in"></i></div>
-                    <div><p class="text-sm font-medium text-white">LinkedIn</p><p class="text-xs text-zinc-500">@afrizalmaulana</p></div>
-                  </div>
-                  <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-instagram"></i></div>
-                    <div><p class="text-sm font-medium text-white">Instagram</p><p class="text-xs text-zinc-500">@afrizal_m.h</p></div>
-                  </div>
-                  <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-youtube"></i></div>
-                    <div><p class="text-sm font-medium text-white">YouTube</p><p class="text-xs text-zinc-500">@youtube</p></div>
-                  </div>
-                  <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-github"></i></div>
-                    <div><p class="text-sm font-medium text-white">GitHub</p><p class="text-xs text-zinc-500">@rizxvelztech</p></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+  </div>
+</section>
+
+</main>
+
+<script>
+  const audio = document.getElementById('bgAudio');
+  const btn = document.getElementById('audioToggle');
+  let isPlaying = false;
+  let started = false;
+
+  function toggleAudio() {
+    if (audio.paused) {
+      audio.play().then(() => {
+        isPlaying = true;
+        started = true;
+        btn.classList.add('playing');
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      isPlaying = false;
+      btn.classList.remove('playing');
+    }
+  }
+
+  function startAudio() {
+    if (started) return;
+    audio.play().then(() => {
+      isPlaying = true;
+      started = true;
+      btn.classList.add('playing');
+    }).catch(() => {});
+  }
+
+  window.addEventListener('scroll', startAudio, { once: true, passive: true });
+  document.addEventListener('click', startAudio, { once: true });
+  document.addEventListener('touchstart', startAudio, { once: true, passive: true });
+</script>
+
+<script>
+  const nameText = "Afrizal Maulana";
+  const descText = "A passionate developer and programmer creating digital solutions through innovative code.";
+
+  const nameElement = document.getElementById('typing-name');
+  const descElement = document.getElementById('typing-desc');
+  
+  let nameIndex = 0;
+  let descIndex = 0;
+
+  function removeNameCursor() {
+    const cursor = document.querySelector('.typing-cursor');
+    if (cursor) cursor.style.display = 'none';
+  }
+  
+  function removeDescCursor() {
+    const cursor = document.querySelector('.typing-cursor-desc');
+    if (cursor) cursor.style.display = 'none';
+  }
+
+  function typeName() {
+    if (nameIndex < nameText.length) {
+      nameElement.textContent += nameText.charAt(nameIndex);
+      nameIndex++;
+      setTimeout(typeName, 80);
+    } else {
+      removeNameCursor();
+      setTimeout(typeDesc, 300);
+    }
+  }
+
+  function typeDesc() {
+    if (descIndex < descText.length) {
+      descElement.textContent += descText.charAt(descIndex);
+      descIndex++;
+      setTimeout(typeDesc, 30);
+    } else {
+      removeDescCursor();
+    }
+  }
+
+  setTimeout(typeName, 500);
+</script>
+
+<script>
+let activeTab = 'projects';
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('projectsTab').style.display = tab === 'projects' ? 'block' : 'none';
+  document.getElementById('certificatesTab').style.display = tab === 'certificates' ? 'block' : 'none';
+  document.getElementById('techstackTab').style.display = tab === 'techstack' ? 'block' : 'none';
+  
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-btn')[['projects','certificates','techstack'].indexOf(tab)].classList.add('active');
+}
+
+document.querySelectorAll('.tab-btn').forEach((btn, index) => {
+  btn.onclick = () => {
+    const tabs = ['projects', 'certificates', 'techstack'];
+    switchTab(tabs[index]);
+  };
+});
+</script>
+
+<script src="js/main.js"></script>
     `;
   }
 
-  // Jalankan
   setTimeout(typeEffect, 500);
   setTimeout(updatePercent, 800);
 })();
