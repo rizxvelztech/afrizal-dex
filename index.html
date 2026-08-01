@@ -255,52 +255,54 @@
     </div>
     
     <div x-show="activeTab==='projects'" x-transition>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="project-card">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white"><i class="fas fa-gamepad"></i></div>
-            <h3 class="font-display font-semibold text-lg text-white">Tic Tac Toe</h3>
-          </div>
-          <p class="text-sm text-zinc-400 leading-relaxed">Classic game with win animations & score tracking.</p>
-          <div class="flex flex-wrap gap-2 mt-3">
-            <span class="tech-badge text-xs">Interactive</span>
-            <span class="tech-badge text-xs">Alpine.js</span>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white"><i class="fas fa-calculator"></i></div>
-            <h3 class="font-display font-semibold text-lg text-white">Calculator</h3>
-          </div>
-          <p class="text-sm text-zinc-400 leading-relaxed">Perform basic arithmetic operations with clean UI.</p>
-          <div class="flex flex-wrap gap-2 mt-3">
-            <span class="tech-badge text-xs">Utility</span>
-            <span class="tech-badge text-xs">JavaScript</span>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white"><i class="fas fa-list-check"></i></div>
-            <h3 class="font-display font-semibold text-lg text-white">To-Do List</h3>
-          </div>
-          <p class="text-sm text-zinc-400 leading-relaxed">Manage daily tasks with persistence & filtering.</p>
-          <div class="flex flex-wrap gap-2 mt-3">
-            <span class="tech-badge text-xs">Productivity</span>
-            <span class="tech-badge text-xs">LocalStorage</span>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white"><i class="fas fa-quote-right"></i></div>
-            <h3 class="font-display font-semibold text-lg text-white">Quote Generator</h3>
-          </div>
-          <p class="text-sm text-zinc-400 leading-relaxed">Daily inspiration — copy & share quotes.</p>
-          <div class="flex flex-wrap gap-2 mt-3">
-            <span class="tech-badge text-xs">Inspiration</span>
-            <span class="tech-badge text-xs">API</span>
-          </div>
+  <div class="grid md:grid-cols-2 gap-6">
+    
+    <!-- Project 1: Afrizal Dex -->
+    <a href="https://afrizal-dex.vercel.app" target="_blank" class="project-card group block hover:no-underline">
+      <div class="relative overflow-hidden rounded-xl mb-3">
+        <img src="https://i.postimg.cc/QCvYLQHm/Screenshot-20260801-193242.png" alt="Afrizal Dex Portfolio" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+          <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
         </div>
       </div>
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-display font-semibold text-lg text-white group-hover:text-accent transition">Afrizal Dex</h3>
+          <p class="text-sm text-zinc-400">Personal portfolio website</p>
+        </div>
+        <span class="text-xs text-zinc-500 group-hover:text-accent transition"><i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-3">
+        <span class="tech-badge text-xs">Portfolio</span>
+        <span class="tech-badge text-xs">Tailwind</span>
+        <span class="tech-badge text-xs">Alpine.js</span>
+      </div>
+    </a>
+
+    <!-- Project 2: Wanto Profile -->
+    <a href="https://wanto-profile.vercel.app" target="_blank" class="project-card group block hover:no-underline">
+      <div class="relative overflow-hidden rounded-xl mb-3">
+        <img src="https://i.postimg.cc/FsFbNfqs/Screenshot-20260801-193302.png" alt="Wanto Profile" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+          <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-display font-semibold text-lg text-white group-hover:text-accent transition">Wanto Profile</h3>
+          <p class="text-sm text-zinc-400">Personal profile website</p>
+        </div>
+        <span class="text-xs text-zinc-500 group-hover:text-accent transition"><i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-3">
+        <span class="tech-badge text-xs">Profile</span>
+        <span class="tech-badge text-xs">Tailwind</span>
+        <span class="tech-badge text-xs">Vercel</span>
+      </div>
+    </a>
+
+  </div>
+</div>
       <div class="text-center mt-6">
         <a href="projects.html" class="inline-flex items-center gap-2 text-white hover:text-zinc-300 transition text-sm font-medium">
           View All Projects <i class="fas fa-arrow-right text-xs"></i>
