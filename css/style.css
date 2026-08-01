@@ -106,37 +106,6 @@
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ===== TYPING EFFECT ===== */
-.typing-cursor,
-.typing-cursor-desc {
-  display: inline-block;
-  width: 3px;
-  height: 1em;
-  background: #ffffff;
-  margin-left: 2px;
-  animation: blink 0.8s step-end infinite;
-  vertical-align: text-bottom;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.typing-cursor {
-  height: 1.1em;
-  background: #ffffff;
-}
-
-.typing-cursor-desc {
-  height: 1.2em;
-  background: #9ca3af;
-}
-
-/* ========================================
-   CBOX WRAPPER - PEMBUNGKUS KEREN
-   ======================================== */
-
 .cbox-wrapper {
   position: relative;
   background: rgba(10, 10, 10, 0.6);
@@ -160,7 +129,6 @@
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Shimmer animasi di border atas */
 .cbox-wrapper::before {
   content: '';
   position: absolute;
@@ -185,21 +153,6 @@
   100% { transform: translateX(50%); }
 }
 
-/* Glow effect di sudut */
-.cbox-wrapper::after {
-  content: '';
-  position: absolute;
-  bottom: -20px;
-  right: -20px;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Iframe styling */
 .cbox-iframe {
   position: relative;
   z-index: 1;
@@ -207,47 +160,6 @@
   border-radius: 12px !important;
   width: 100% !important;
   height: 450px !important;
-}
-
-/* Hover effect untuk Cbox */
-.cbox-wrapper:hover .cbox-iframe {
-  opacity: 1;
-}
-
-/* Loading skeleton effect */
-.cbox-wrapper .cbox-loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(10, 10, 10, 0.8);
-  z-index: 0;
-  border-radius: 16px;
-}
-
-.cbox-wrapper .cbox-loading .spinner {
-  width: 30px;
-  height: 30px;
-  border: 2px solid rgba(255, 255, 255, 0.05);
-  border-top-color: #6366f1;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .cbox-wrapper {
-    border-radius: 12px;
-  }
-  
-  .cbox-iframe {
-    height: 380px !important;
-  }
 }
 
 *,*::before,*::after{box-sizing:border-box}
