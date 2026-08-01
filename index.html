@@ -37,289 +37,6 @@
 </script>
 
 <style>
-  .liquid-glass-dark {
-    position: relative;
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.02),
-      0 8px 32px rgba(0, 0, 0, 0.5);
-  }
-
-  .liquid-shimmer-dark {
-    background: linear-gradient(
-      105deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.02) 20%,
-      rgba(255, 255, 255, 0.04) 40%,
-      rgba(255, 255, 255, 0.06) 50%,
-      rgba(255, 255, 255, 0.04) 60%,
-      rgba(255, 255, 255, 0.02) 80%,
-      transparent 100%
-    );
-    background-size: 300% 100%;
-    animation: shimmerMoveDark 8s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  @keyframes shimmerMoveDark {
-    0% { background-position: 100% 0; }
-    100% { background-position: -100% 0; }
-  }
-
-  .liquid-glass-dark::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.03) 0%,
-      rgba(255, 255, 255, 0.01) 25%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.01) 75%,
-      rgba(255, 255, 255, 0.03) 100%
-    );
-    background-size: 400% 400%;
-    animation: liquidGradientDark 10s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  @keyframes liquidGradientDark {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .liquid-glass-dark::after {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    padding: 2px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.1)
-    );
-    background-size: 300% 300%;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: borderGlowDark 6s ease-in-out infinite;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-
-  .liquid-glass-dark:hover::after {
-    opacity: 1;
-  }
-
-  @keyframes borderGlowDark {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .liquid-glass-dark:hover {
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.02),
-      0 8px 40px rgba(0, 0, 0, 0.6),
-      0 0 80px rgba(255, 255, 255, 0.03);
-  }
-
-  .tech-badge {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-  }
-
-  .tech-badge:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  *,*::before,*::after{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{font-family:'Inter',sans-serif;transition:background-color .3s,color .3s;background:#0a0a0a;color:#e5e7eb}
-  h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif}
-  ::-webkit-scrollbar{width:6px}
-  ::-webkit-scrollbar-track{background:transparent}
-  ::-webkit-scrollbar-thumb{background:#ffffff;border-radius:99px}
-
-  .reveal{opacity:0;transform:translateY(30px);transition:opacity .5s cubic-bezier(0.4,0,0.2,1),transform .5s cubic-bezier(0.4,0,0.2,1)}
-  .reveal.in{opacity:1;transform:translateY(0)}
-  .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
-
-  .nl{position:relative}
-  .nl::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:#ffffff;transition:width .3s}
-  .nl:hover::after,.nl.active::after{width:100%}
-  .nl.active{color:#ffffff;font-weight:600}
-
-  .shimmer{position:relative;overflow:hidden}
-  .shimmer::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transform:skewX(-20deg);transition:left .5s}
-  .shimmer:hover::after{left:160%}
-
-  .card-hover{transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-  .card-hover:hover{transform:translateY(-4px);box-shadow:0 20px 30px -12px rgba(255,255,255,0.15)}
-
-  .profile-glow{animation:glow 2s ease-in-out infinite}
-  @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.3)}50%{box-shadow:0 0 0 16px rgba(255,255,255,0)}}
-
-  [x-cloak]{display:none!important}
-
-  .bg-blur-circle{position:absolute;border-radius:9999px;filter:blur(90px);pointer-events:none}
-  .bg-grid-pattern{background-image:linear-gradient(to right,rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:26px 26px}
-
-  .skill-icon{width:56px;height:56px;object-fit:contain;transition:transform .3s}
-  .skill-icon:hover{transform:scale(1.12)}
-
-  .stat-number{font-size:2.5rem;font-weight:700;color:#ffffff;line-height:1.2}
-  @media (min-width:768px){.stat-number{font-size:3rem}}
-
-  .badge-pill{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.12);color:#ffffff;border:1px solid rgba(255,255,255,0.15)}
-
-  .tab-btn{color:#9ca3af;padding:0.5rem 1rem;border-radius:9999px;transition:all .3s;cursor:pointer;font-size:0.875rem;font-weight:500}
-  .tab-btn:hover{color:#fff;background:rgba(255,255,255,0.05)}
-  .tab-btn.active{color:#fff;background:rgba(255,255,255,0.15)}
-
-  .project-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.5rem;transition:all .3s}
-  .project-card:hover{border-color:rgba(255,255,255,0.3);transform:translateY(-3px)}
-
-  .cert-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.25rem;text-align:center;transition:all .3s}
-  .cert-card:hover{border-color:rgba(255,255,255,0.3);transform:translateY(-3px)}
-
-  .tech-badge{display:inline-block;padding:0.4rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.05);color:#d1d5db;border:1px solid rgba(255,255,255,0.06);transition:all .3s}
-  .tech-badge:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);color:#fff}
-
-  .contact-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:1rem;padding:1.25rem;transition:all .3s}
-  .contact-card:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.06)}
-
-  .section-title{font-size:2rem;font-weight:700;letter-spacing:-0.02em}
-  @media (min-width:768px){.section-title{font-size:2.5rem}}
-
-  .cbox-wrapper {
-    position: relative;
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      0 0 80px rgba(99, 102, 241, 0.03);
-    transition: all 0.4s ease;
-  }
-
-  .cbox-wrapper:hover {
-    box-shadow: 
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 8px 40px rgba(0, 0, 0, 0.5),
-      0 0 100px rgba(99, 102, 241, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .cbox-wrapper::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -100%;
-    width: 300%;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(99, 102, 241, 0.3),
-      rgba(255, 255, 255, 0.1),
-      rgba(99, 102, 241, 0.3),
-      transparent
-    );
-    animation: shimmerBorder 4s ease-in-out infinite;
-    z-index: 5;
-  }
-
-  @keyframes shimmerBorder {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(50%); }
-  }
-
-  .cbox-iframe {
-    position: relative;
-    z-index: 1;
-    background: transparent !important;
-    border-radius: 12px !important;
-    width: 100% !important;
-    height: 450px !important;
-  }
-
-  .tab-content {
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  .tab-content[x-show] {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tab-content[x-cloak] {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  .tab-grid-item {
-    animation: fadeScaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  }
-
-  .tab-grid-item:nth-child(1) { animation-delay: 0.05s; }
-  .tab-grid-item:nth-child(2) { animation-delay: 0.10s; }
-  .tab-grid-item:nth-child(3) { animation-delay: 0.15s; }
-  .tab-grid-item:nth-child(4) { animation-delay: 0.20s; }
-
-  @keyframes fadeScaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95) translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
-  .typing-cursor,
-  .typing-cursor-desc {
-    display: inline-block;
-    width: 3px;
-    height: 1em;
-    background: #ffffff;
-    margin-left: 2px;
-    animation: blink 0.8s step-end infinite;
-    vertical-align: text-bottom;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-  .typing-cursor {
-    height: 1.1em;
-    background: #ffffff;
-  }
-
-  .typing-cursor-desc {
-    height: 1.2em;
-    background: #9ca3af;
-  }
-
   .audio-player-btn {
     position: fixed;
     bottom: 24px;
@@ -328,9 +45,9 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.08);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.12);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -343,20 +60,20 @@
 
   .audio-player-btn:hover {
     transform: scale(1.1);
-    background: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.25);
   }
 
   .audio-player-btn.playing {
-    background: rgba(255,255,255,0.2);
-    box-shadow: 0 0 40px rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 40px rgba(255,255,255,0.08);
   }
 
   .audio-player-btn .pulse-ring {
     position: absolute;
     inset: -4px;
     border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.15);
     animation: pulse-ring 2s ease-out infinite;
     pointer-events: none;
   }
@@ -403,6 +120,32 @@
     0% { transform: scaleY(0.4); }
     100% { transform: scaleY(1); }
   }
+
+  .typing-cursor,
+  .typing-cursor-desc {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: #ffffff;
+    margin-left: 2px;
+    animation: blink 0.8s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .typing-cursor {
+    height: 1.1em;
+    background: #ffffff;
+  }
+
+  .typing-cursor-desc {
+    height: 1.2em;
+    background: #9ca3af;
+  }
 </style>
 </head>
 
@@ -422,25 +165,13 @@
   <source src="audiox.mp3" type="audio/mpeg">
 </audio>
 
-<button id="audioToggle" class="audio-player-btn" x-data="audioPlayer()" @click="toggleAudio()" :class="{'playing': isPlaying}">
+<button id="audioToggle" class="audio-player-btn" onclick="toggleAudio()">
   <span class="pulse-ring"></span>
   <span class="music-icon"><i class="fas fa-music"></i></span>
   <span class="sound-wave">
     <span></span><span></span><span></span><span></span><span></span>
   </span>
 </button>
-
-<audio id="clickSound" preload="auto">
-  <source src="https://www.soundjay.com/misc/sounds/button-09.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="hoverSound" preload="auto">
-  <source src="https://www.soundjay.com/misc/sounds/click-01.mp3" type="audio/mpeg">
-</audio>
-
-<audio id="notifSound" preload="auto">
-  <source src="https://www.soundjay.com/misc/sounds/notification-02.mp3" type="audio/mpeg">
-</audio>
 
 <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
   :class="scrolled ? 'bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'">
@@ -646,10 +377,10 @@
       </button>
     </div>
     
-    <div x-show="activeTab==='projects'" x-transition:enter.duration.400ms.opacity.scale.origin.top class="tab-content">
+    <div x-show="activeTab==='projects'" x-transition>
       <div class="grid md:grid-cols-2 gap-6">
         
-        <a href="https://afrizal-dex.vercel.app" target="_blank" class="project-card group block hover:no-underline tab-grid-item">
+        <a href="https://afrizal-dex.vercel.app" target="_blank" class="project-card group block hover:no-underline">
           <div class="relative overflow-hidden rounded-xl mb-3">
             <img src="https://api.screenshotone.com/take?url=https://afrizal-dex.vercel.app&access_key=JKyRkNrNSuLQrw&viewport_width=1280&viewport_height=720&image_quality=85&cache_ttl=86400" 
                  alt="Afrizal Dex" 
@@ -673,7 +404,7 @@
           </div>
         </a>
 
-        <a href="https://wanto-profile.vercel.app" target="_blank" class="project-card group block hover:no-underline tab-grid-item">
+        <a href="https://wanto-profile.vercel.app" target="_blank" class="project-card group block hover:no-underline">
           <div class="relative overflow-hidden rounded-xl mb-3">
             <img src="https://api.screenshotone.com/take?url=https://wanto-profile.vercel.app&access_key=JKyRkNrNSuLQrw&viewport_width=1280&viewport_height=720&image_quality=85&cache_ttl=86400" 
                  alt="Wanto Profile" 
@@ -705,9 +436,9 @@
       </div>
     </div>
     
-    <div x-show="activeTab==='certificates'" x-transition:enter.duration.400ms.opacity.scale.origin.top class="tab-content">
+    <div x-show="activeTab==='certificates'" x-transition>
       <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
-        <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center hover:border-white/30 transition-all cert-grid-item">
+        <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center hover:border-white/30 transition-all">
           <img src="https://a.top4top.io/p_3865ot5ky1.jpg" alt="Google Cybersecurity Certificate" class="rounded-xl w-full max-w-[300px] border border-white/10 mb-4">
           <h4 class="font-semibold text-white">Foundations of Cybersecurity</h4>
           <p class="text-sm text-zinc-400 mt-1">Google — Coursera</p>
@@ -721,7 +452,7 @@
           </a>
         </div>
 
-        <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center hover:border-white/30 transition-all cert-grid-item">
+        <div class="bg-white/5 rounded-2xl border border-white/5 p-6 flex flex-col items-center text-center hover:border-white/30 transition-all">
           <img src="https://f.top4top.io/p_3801k9pcf1.jpg" alt="Certificate" class="rounded-xl w-full max-w-[300px] border border-white/10 mb-4">
           <h4 class="font-semibold text-white">Algonova Social Media Competition 2025</h4>
           <p class="text-sm text-zinc-400 mt-1">Official certificate — Afrizal Maulana Herwanto</p>
@@ -733,45 +464,45 @@
       </div>
     </div>
     
-    <div x-show="activeTab==='techstack'" x-transition:enter.duration.400ms.opacity.scale.origin.top class="tab-content">
+    <div x-show="activeTab==='techstack'" x-transition>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">Python</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">JavaScript</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">Java</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">C++</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">GitHub</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">HTML5</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">CSS3</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">Tailwind</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/alpinejs/alpinejs-original.svg" alt="Alpine.js" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">Alpine.js</h4>
         </div>
-        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover tech-grid-item">
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/5 hover:border-white/30 transition-all text-center card-hover">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="skill-icon mx-auto mb-2">
           <h4 class="font-medium text-sm text-white">React</h4>
         </div>
@@ -931,188 +662,37 @@
 </main>
 
 <script>
-document.addEventListener('alpine:init', () => {
-  Alpine.data('audioPlayer', () => ({
-    isPlaying: false,
-    showTooltip: false,
-    tooltipTimeout: null,
-    audio: null,
-    started: false,
-    
-    init() {
-      this.audio = document.getElementById('bgAudio');
-      this.btn = document.getElementById('audioToggle');
-      
-      const startAudio = () => {
-        if (this.started) return;
-        if (!this.audio) return;
-        
-        this.audio.play().then(() => {
-          this.isPlaying = true;
-          this.started = true;
-        }).catch(err => {
-          console.log('Audio play failed:', err);
-        });
-      };
-      
-      window.addEventListener('scroll', startAudio, { once: true, passive: true });
-      document.addEventListener('click', startAudio, { once: true });
-      document.addEventListener('touchstart', startAudio, { once: true, passive: true });
-      document.addEventListener('keydown', startAudio, { once: true });
-    },
-    
-    toggleAudio() {
-      const audio = this.audio;
-      if (!audio) return;
-      
-      if (audio.paused) {
-        audio.play().then(() => {
-          this.isPlaying = true;
-          this.started = true;
-        }).catch(err => {
-          console.log('Play failed:', err);
-        });
-      } else {
-        audio.pause();
-        this.isPlaying = false;
-      }
-    }
-  }));
-});
-</script>
+  const audio = document.getElementById('bgAudio');
+  const btn = document.getElementById('audioToggle');
+  let isPlaying = false;
+  let started = false;
 
-<script>
-  const clickAudio = document.getElementById('clickSound');
-  document.querySelectorAll('a, button, .tab-btn, .project-card, .nl, .shimmer, .badge-pill, .contact-card, .cert-card').forEach(el => {
-    el.addEventListener('click', function(e) {
-      clickAudio.currentTime = 0;
-      clickAudio.play().catch(() => {});
-    });
-  });
-
-  const hoverAudio = document.getElementById('hoverSound');
-  document.querySelectorAll('a, button, .project-card, .tab-btn, .nl, .shimmer, .badge-pill, .contact-card, .cert-card').forEach(el => {
-    el.addEventListener('mouseenter', function() {
-      hoverAudio.currentTime = 0;
-      hoverAudio.play().catch(() => {});
-    });
-  });
-
-  function playNotification() {
-    const notifAudio = document.getElementById('notifSound');
-    notifAudio.currentTime = 0;
-    notifAudio.play().catch(() => {});
-  }
-</script>
-
-<script>
-  function dragCard() {
-    return {
-      x: 0,
-      y: 0,
-      rotate: 0,
-      scale: 1,
-      isDragging: false,
-      startX: 0,
-      startY: 0,
-
-      startDrag(event) {
-        this.isDragging = true;
-        const touch = event.touches ? event.touches[0] : event;
-        this.startX = touch.clientX - this.x;
-        this.startY = touch.clientY - this.y;
-        this.scale = 1.05;
-        this.$el.style.transition = 'none';
-      },
-
-      onDrag(event) {
-        if (!this.isDragging) return;
-        event.preventDefault();
-        const touch = event.touches ? event.touches[0] : event;
-        this.x = touch.clientX - this.startX;
-        this.y = touch.clientY - this.startY;
-        this.rotate = this.x * 0.03;
-      },
-
-      endDrag() {
-        if (this.isDragging) {
-          this.isDragging = false;
-          this.scale = 1;
-          this.$el.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
-          this.x = 0;
-          this.y = 0;
-          this.rotate = 0;
-        }
-      }
+  function toggleAudio() {
+    if (audio.paused) {
+      audio.play().then(() => {
+        isPlaying = true;
+        started = true;
+        btn.classList.add('playing');
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      isPlaying = false;
+      btn.classList.remove('playing');
     }
   }
 
-  function app() {
-    return {
-      dark: false,
-      mobileMenu: false,
-      scrolled: false,
-      activeSection: 'hero',
-      activeTab: 'projects',
-      currentAge: 0,
-
-      init() {
-        const lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smoothWheel: true,
-        });
-
-        function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-        this.lenis = lenis;
-
-        this.dark = localStorage.getItem('theme') === 'dark';
-        this.$watch('dark', v => localStorage.setItem('theme', v ? 'dark' : 'light'));
-        
-        this.updateAge();
-        setInterval(() => this.updateAge(), 86400000);
-
-        window.addEventListener('scroll', () => {
-          this.scrolled = window.scrollY > 50;
-          this.updateActiveSection();
-        });
-
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-        }, { threshold: 0.1, rootMargin: '-50px 0px -50px 0px' });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        const yearEl = document.getElementById('copyrightYear');
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-        setTimeout(typeName, 500);
-      },
-
-      updateAge() {
-        const birth = new Date(2011, 4, 12);
-        const today = new Date();
-        let age = today.getFullYear() - birth.getFullYear();
-        if (today.getMonth() < birth.getMonth() || (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())) age--;
-        this.currentAge = age;
-      },
-
-      updateActiveSection() {
-        const sections = ['contact', 'portfolio', 'about', 'hero'];
-        for (const sec of sections) {
-          const el = document.getElementById(sec);
-          if (el && window.scrollY >= el.offsetTop - 150) {
-            this.activeSection = sec;
-            return;
-          }
-        }
-        this.activeSection = 'hero';
-      }
-    }
+  function startAudio() {
+    if (started) return;
+    audio.play().then(() => {
+      isPlaying = true;
+      started = true;
+      btn.classList.add('playing');
+    }).catch(() => {});
   }
+
+  window.addEventListener('scroll', startAudio, { once: true, passive: true });
+  document.addEventListener('click', startAudio, { once: true });
+  document.addEventListener('touchstart', startAudio, { once: true, passive: true });
 </script>
 
 <script>
@@ -1155,7 +735,10 @@ document.addEventListener('alpine:init', () => {
       removeDescCursor();
     }
   }
+
+  setTimeout(typeName, 500);
 </script>
 
+<script src="js/main.js"></script>
 </body>
 </html>
