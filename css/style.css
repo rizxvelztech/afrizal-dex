@@ -165,10 +165,12 @@ h1,h2,h3,h4,h5,h6{font-family:'Poppins',sans-serif}
 .section-title{font-size:2rem;font-weight:700;letter-spacing:-0.02em}
 @media (min-width:768px){.section-title{font-size:2.5rem}}
 
-.giscus-wrapper {
-  margin-top: 1.5rem;
+.cbox-wrapper {
+  border-radius: 0.75rem;
+  overflow: hidden;
 }
 
-.giscus-wrapper .giscus {
-  width: 100%;
+.cbox-wrapper iframe {
+  border-radius: 0.75rem;
+  background: transparent;
 }
