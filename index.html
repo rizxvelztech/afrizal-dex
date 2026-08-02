@@ -14,7 +14,12 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-/* ===== LOADING SCREEN ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 #loadingScreen {
   position: fixed;
   inset: 0;
@@ -23,11 +28,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.8s ease;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
   font-family: 'Poppins', sans-serif;
 }
 #loadingScreen.hide {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 .loading-bg {
@@ -112,6 +118,7 @@
   font-weight: 700;
   font-size: 2.5rem;
   color: white;
+  letter-spacing: -0.02em;
 }
 @media (min-width: 768px) {
   .loading-title { font-size: 3.5rem; }
@@ -126,6 +133,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin-top: 0.5rem;
+  min-height: 2rem;
 }
 .loading-typing-cursor {
   display: inline-block;
@@ -202,12 +210,6 @@
   width: 0%;
   background: linear-gradient(90deg, #ffffff, #9ca3af);
   border-radius: 2px;
-  animation: fillBar 2s ease-in-out forwards;
-  animation-delay: 0.5s;
-}
-@keyframes fillBar {
-  0% { width: 0%; }
-  100% { width: 100%; }
 }
 .loading-percent {
   color: #9ca3af;
@@ -219,12 +221,18 @@
   animation-delay: 3s;
 }
 body.loading { overflow: hidden; }
+
+#mainContent {
+  display: none;
+}
+#mainContent.show {
+  display: block;
+}
 </style>
 
 </head>
 <body class="loading">
 
-<!-- ===== LOADING SCREEN ===== -->
 <div id="loadingScreen">
   <div class="loading-bg">
     <div class="loading-bg-circle"></div>
@@ -234,7 +242,7 @@ body.loading { overflow: hidden; }
   <div class="loading-grid"></div>
   <div class="loading-content">
     <div class="loading-logo"><span>D</span><span>x</span></div>
-    <div class="loading-title">Welcome to<br><span class="highlight">My Portfolio</span></div>
+    <div class="loading-title">Welcome<br><span class="highlight">My Portfolio</span></div>
     <div class="loading-typing">
       <span id="loadingText"></span>
       <span class="loading-typing-cursor" id="loadingCursor">|</span>
@@ -247,70 +255,14 @@ body.loading { overflow: hidden; }
       <div class="loading-icon"><i class="fab fa-react"></i></div>
       <div class="loading-icon"><i class="fab fa-github"></i></div>
     </div>
-    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+    <div class="loading-bar">
+      <div class="loading-bar-fill" id="loadingBarFill"></div>
+    </div>
     <div class="loading-percent" id="loadingPercent">0%</div>
   </div>
 </div>
 
-<div style="display:none;" id="mainContent"></div>
-
-<script>
-(function() {
-  const loadingScreen = document.getElementById('loadingScreen');
-  const mainContent = document.getElementById('mainContent');
-  const percentEl = document.getElementById('loadingPercent');
-  const textEl = document.getElementById('loadingText');
-  const cursorEl = document.getElementById('loadingCursor');
-  
-  const words = ["Developer", "Programmer", "Developer & Programmer"];
-  let wordIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let percent = 0;
-
-  function typeEffect() {
-    const currentWord = words[wordIndex];
-    if (isDeleting) {
-      textEl.textContent = currentWord.substring(0, charIndex - 1);
-      charIndex--;
-    } else {
-      textEl.textContent = currentWord.substring(0, charIndex + 1);
-      charIndex++;
-    }
-
-    let delay = isDeleting ? 40 : 80;
-
-    if (!isDeleting && charIndex === currentWord.length) {
-      delay = 1000;
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      wordIndex = (wordIndex + 1) % words.length;
-      delay = 300;
-    }
-
-    setTimeout(typeEffect, delay);
-  }
-
-  function updatePercent() {
-    if (percent < 100) {
-      percent += Math.random() * 3 + 1;
-      if (percent > 100) percent = 100;
-      percentEl.textContent = Math.floor(percent) + '%';
-      setTimeout(updatePercent, 80 + Math.random() * 60);
-    } else {
-      setTimeout(() => {
-        loadingScreen.classList.add('hide');
-        document.body.classList.remove('loading');
-        mainContent.style.display = 'block';
-        document.body.style.overflow = '';
-        loadMainContent();
-      }, 500);
-    }
-  }
-
-  function loadMainContent() {
-    mainContent.innerHTML = `
+<div id="mainContent">
 <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
   <div class="absolute inset-0">
     <div class="bg-blur-circle top-10 left-10 w-40 h-40 md:w-56 md:h-56 bg-white opacity-20"></div>
@@ -342,7 +294,7 @@ body.loading { overflow: hidden; }
     </a>
 
     <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
-      <li><a href="#about" class="nl text-zinc-400 hover:text-white transition active:text-white">About</a></li>
+      <li><a href="#about" class="nl text-zinc-400 hover:text-white transition">About</a></li>
       <li><a href="#portfolio" class="nl text-zinc-400 hover:text-white transition">Portfolio</a></li>
       <li><a href="projects.html" class="nl text-zinc-400 hover:text-white transition">Projects</a></li>
       <li><a href="#contact" class="nl text-zinc-400 hover:text-white transition">Contact</a></li>
@@ -382,9 +334,9 @@ body.loading { overflow: hidden; }
           <span class="typing-cursor-desc">|</span>
         </p>
         <div class="reveal d3 grid grid-cols-3 gap-6 mb-8 max-w-md">
-          <div><div class="stat-number" x-text="'2+'">2+</div><div class="text-xs text-zinc-500 font-medium">Years Experience</div></div>
-          <div><div class="stat-number" x-text="'99+'">99+</div><div class="text-xs text-zinc-500 font-medium">Projects Done</div></div>
-          <div><div class="stat-number" x-text="'99+'">99+</div><div class="text-xs text-zinc-500 font-medium">Happy Clients</div></div>
+          <div><div class="stat-number">2+</div><div class="text-xs text-zinc-500 font-medium">Years Experience</div></div>
+          <div><div class="stat-number">99+</div><div class="text-xs text-zinc-500 font-medium">Projects Done</div></div>
+          <div><div class="stat-number">99+</div><div class="text-xs text-zinc-500 font-medium">Happy Clients</div></div>
         </div>
         <div class="reveal d4 flex flex-wrap gap-4">
           <a href="#portfolio" class="shimmer inline-flex items-center gap-2 bg-white hover:bg-zinc-200 text-black font-medium px-6 py-3 rounded-full transition-all text-sm hover:scale-105 shadow-lg shadow-white/20">
@@ -494,20 +446,16 @@ body.loading { overflow: hidden; }
     </div>
     
     <div class="flex flex-wrap justify-center gap-2 mb-10 bg-white/5 rounded-full p-1 max-w-md mx-auto border border-white/5">
-      <button onclick="activeTab='projects'" class="tab-btn active">Projects</button>
-      <button onclick="activeTab='certificates'" class="tab-btn">Certificates</button>
-      <button onclick="activeTab='techstack'" class="tab-btn">Tech Stack</button>
+      <button onclick="switchTab('projects')" class="tab-btn active" id="tabProjects">Projects</button>
+      <button onclick="switchTab('certificates')" class="tab-btn" id="tabCertificates">Certificates</button>
+      <button onclick="switchTab('techstack')" class="tab-btn" id="tabTechstack">Tech Stack</button>
     </div>
     
     <div id="projectsTab">
       <div class="grid md:grid-cols-2 gap-6">
-        
         <a href="https://afrizal-dex.vercel.app" target="_blank" class="project-card group block hover:no-underline">
           <div class="relative overflow-hidden rounded-xl mb-3">
-            <img src="https://f.top4top.io/p_3865w7qha1.jpg" 
-                 alt="Afrizal Dex" 
-                 class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
-                 loading="lazy">
+            <img src="https://f.top4top.io/p_3865w7qha1.jpg" alt="Afrizal Dex" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
             </div>
@@ -527,10 +475,7 @@ body.loading { overflow: hidden; }
 
         <a href="https://himura.co.id" target="_blank" class="project-card group block hover:no-underline">
           <div class="relative overflow-hidden rounded-xl mb-3">
-            <img src="https://g.top4top.io/p_38656uf5l1.jpg" 
-                 alt="Himura" 
-                 class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
-                 loading="lazy">
+            <img src="https://g.top4top.io/p_38656uf5l1.jpg" alt="Himura" class="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Live Demo</span>
             </div>
@@ -547,7 +492,6 @@ body.loading { overflow: hidden; }
             <span class="tech-badge text-xs">Business</span>
           </div>
         </a>
-
       </div>
       <div class="text-center mt-6">
         <a href="projects.html" class="inline-flex items-center gap-2 text-white hover:text-zinc-300 transition text-sm font-medium">
@@ -633,7 +577,6 @@ body.loading { overflow: hidden; }
 
 <section id="contact" class="py-20 md:py-28 border-t border-white/5">
   <div class="max-w-6xl mx-auto px-6">
-
     <div class="text-center mb-12">
       <h1 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl text-white mb-3">Contact Me</h1>
       <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto">Have something in mind? Send a message and let's connect.</p>
@@ -641,11 +584,9 @@ body.loading { overflow: hidden; }
 
     <div class="grid md:grid-cols-3 gap-8 items-start">
       <div class="md:col-span-2">
-
         <div class="bg-white/5 rounded-2xl p-6 md:p-8 border border-white/5">
           <h2 class="font-display font-semibold text-2xl md:text-3xl text-white mb-3">Hubungi Saya</h2>
           <p class="text-sm text-zinc-400 mb-7">Feel free to reach out if you want to collaborate, discuss ideas, or simply say hello.</p>
-
           <form class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-zinc-300 mb-1">Your Name</label>
@@ -659,9 +600,7 @@ body.loading { overflow: hidden; }
               <label class="block text-sm font-medium text-zinc-300 mb-1">Your Message</label>
               <textarea rows="4" placeholder="Your Message" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white transition resize-none"></textarea>
             </div>
-
             <hr class="border-white/10 my-4">
-
             <button type="submit" class="shimmer w-full inline-flex justify-center items-center gap-2 bg-white hover:bg-zinc-200 text-black font-medium px-6 py-3 rounded-xl transition-all hover:scale-[1.02]">
               Send Message
             </button>
@@ -672,46 +611,22 @@ body.loading { overflow: hidden; }
       <div class="md:col-span-1">
         <div class="bg-white/5 rounded-2xl p-6 md:p-8 border border-white/5">
           <h3 class="font-display font-semibold text-xl text-white mb-6">Connect With Me</h3>
-
           <div class="space-y-4">
             <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
-                <i class="fab fa-linkedin-in"></i>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-white">LinkedIn</p>
-                <p class="text-xs text-zinc-500">@afrizalmaulana</p>
-              </div>
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-linkedin-in"></i></div>
+              <div><p class="text-sm font-medium text-white">LinkedIn</p><p class="text-xs text-zinc-500">@afrizalmaulana</p></div>
             </div>
-
             <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
-                <i class="fab fa-instagram"></i>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-white">Instagram</p>
-                <p class="text-xs text-zinc-500">@afrizal_m.h</p>
-              </div>
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-instagram"></i></div>
+              <div><p class="text-sm font-medium text-white">Instagram</p><p class="text-xs text-zinc-500">@afrizal_m.h</p></div>
             </div>
-
             <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
-                <i class="fab fa-youtube"></i>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-white">YouTube</p>
-                <p class="text-xs text-zinc-500">@youtube</p>
-              </div>
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-youtube"></i></div>
+              <div><p class="text-sm font-medium text-white">YouTube</p><p class="text-xs text-zinc-500">@youtube</p></div>
             </div>
-
             <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
-                <i class="fab fa-github"></i>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-white">GitHub</p>
-                <p class="text-xs text-zinc-500">@rizxvelztech</p>
-              </div>
+              <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white"><i class="fab fa-github"></i></div>
+              <div><p class="text-sm font-medium text-white">GitHub</p><p class="text-xs text-zinc-500">@rizxvelztech</p></div>
             </div>
           </div>
         </div>
@@ -721,7 +636,6 @@ body.loading { overflow: hidden; }
     <div class="mt-16">
       <div class="max-w-3xl mx-auto">
         <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/5 shadow-2xl shadow-accent/5">
-
           <div class="flex items-center justify-between mb-4 pb-4 border-b border-white/5">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
@@ -743,7 +657,6 @@ body.loading { overflow: hidden; }
 
           <div class="cbox-wrapper relative rounded-xl overflow-hidden bg-[#0a0a0a]/80 backdrop-blur-sm border border-white/5">
             <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/50 to-transparent z-10"></div>
-            
             <iframe 
               src="https://www5.cbox.ws/box/?boxid=965000&boxtag=gdVbkl" 
               width="100%" 
@@ -757,7 +670,6 @@ body.loading { overflow: hidden; }
               class="cbox-iframe"
               style="background: transparent; display: block;"
             ></iframe>
-            
             <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
           </div>
 
@@ -771,11 +683,9 @@ body.loading { overflow: hidden; }
               <i class="fas fa-arrow-up mr-1"></i> Scroll to top
             </a>
           </div>
-
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -860,28 +770,78 @@ body.loading { overflow: hidden; }
 </script>
 
 <script>
-let activeTab = 'projects';
-
 function switchTab(tab) {
-  activeTab = tab;
   document.getElementById('projectsTab').style.display = tab === 'projects' ? 'block' : 'none';
   document.getElementById('certificatesTab').style.display = tab === 'certificates' ? 'block' : 'none';
   document.getElementById('techstackTab').style.display = tab === 'techstack' ? 'block' : 'none';
   
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  document.querySelectorAll('.tab-btn')[['projects','certificates','techstack'].indexOf(tab)].classList.add('active');
+  if (tab === 'projects') document.getElementById('tabProjects').classList.add('active');
+  else if (tab === 'certificates') document.getElementById('tabCertificates').classList.add('active');
+  else if (tab === 'techstack') document.getElementById('tabTechstack').classList.add('active');
 }
-
-document.querySelectorAll('.tab-btn').forEach((btn, index) => {
-  btn.onclick = () => {
-    const tabs = ['projects', 'certificates', 'techstack'];
-    switchTab(tabs[index]);
-  };
-});
 </script>
 
 <script src="js/main.js"></script>
-    `;
+</div>
+
+<script>
+(function() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  const mainContent = document.getElementById('mainContent');
+  const percentEl = document.getElementById('loadingPercent');
+  const barFill = document.getElementById('loadingBarFill');
+  const textEl = document.getElementById('loadingText');
+  const cursorEl = document.getElementById('loadingCursor');
+  
+  const words = ["Developer", "Programmer", "Developer & Programmer"];
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let percent = 0;
+  let isComplete = false;
+
+  function typeEffect() {
+    if (isComplete) return;
+    const currentWord = words[wordIndex];
+    if (isDeleting) {
+      textEl.textContent = currentWord.substring(0, charIndex - 1);
+      charIndex--;
+    } else {
+      textEl.textContent = currentWord.substring(0, charIndex + 1);
+      charIndex++;
+    }
+
+    let delay = isDeleting ? 40 : 80;
+
+    if (!isDeleting && charIndex === currentWord.length) {
+      delay = 1000;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+      delay = 300;
+    }
+
+    if (!isComplete) setTimeout(typeEffect, delay);
+  }
+
+  function updatePercent() {
+    if (percent < 100) {
+      percent += Math.random() * 3 + 1;
+      if (percent > 100) percent = 100;
+      percentEl.textContent = Math.floor(percent) + '%';
+      barFill.style.width = percent + '%';
+      setTimeout(updatePercent, 80 + Math.random() * 60);
+    } else {
+      isComplete = true;
+      setTimeout(() => {
+        loadingScreen.classList.add('hide');
+        document.body.classList.remove('loading');
+        mainContent.classList.add('show');
+        document.body.style.overflow = '';
+      }, 500);
+    }
   }
 
   setTimeout(typeEffect, 500);
