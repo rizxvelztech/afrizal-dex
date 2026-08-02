@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Web Screenshot Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #09090b;
+      color: #e4e4e7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+    .badge-pill {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: #a1a1aa;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(12px);
+    }
+
+    .bg-blur-circle {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(110px);
+      opacity: 0.22;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+
+    .bg-grid-pattern {
+      background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.022) 1px, transparent 0);
+      background-size: 48px 48px;
+    }
+
+    .navbar {
+      background: rgba(9,9,11,0.72);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .glass-card {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .glass-card:hover {
+      border-color: rgba(255,255,255,0.11);
+      box-shadow: 0 16px 48px -16px rgba(0,0,0,0.55);
+    }
+
+    .option-card {
+      transition: all 0.22s cubic-bezier(0.22,1,0.36,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .option-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .option-card:hover::before { opacity: 1; }
+    .option-card:hover {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.045);
+      transform: translateY(-1px);
+    }
+    .option-card:has(:checked) {
+      border-color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.09);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .option-card:has(:checked) i {
+      color: #fff;
+    }
+
+    .input-wrap {
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+    .input-wrap:focus-within {
+      border-color: rgba(255,255,255,0.38);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.07);
+    }
+    .input-wrap.error {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.15) !important;
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.28s cubic-bezier(0.22,1,0.36,1);
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.55s ease;
+    }
+    .btn-primary:hover:not(:disabled)::after {
+      left: 120%;
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px -8px rgba(255,255,255,0.35);
+    }
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    .btn-primary:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-download {
+      transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+      transform: translateY(6px);
+      opacity: 0;
+    }
+    .btn-download.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .btn-download:hover {
+      background: rgba(16,185,129,0.22);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px -8px rgba(16,185,129,0.4);
+    }
+
+    .screenshot-box {
+      background: #09090b;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .screenshot-box img {
+      width: 100%;
+      height: auto;
+      max-height: 520px;
+      object-fit: contain;
+      display: block;
+      opacity: 0;
+      transform: scale(0.97);
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22,1,0.36,1);
+    }
+    .screenshot-box img.loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 3px solid rgba(255,255,255,0.07);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      animation: pulseRing 1.4s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.9); opacity: 0; }
+    }
+
+    .empty-icon {
+      animation: floatGlow 2.8s ease-in-out infinite;
+    }
+    @keyframes floatGlow {
+      0%, 100% { opacity: 0.4; transform: translateY(0) scale(1); }
+      50% { opacity: 0.7; transform: translateY(-4px) scale(1.03); }
+    }
+
+    .state-panel {
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .state-panel.hidden-state {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+    }
+    .state-panel.active-state {
+      opacity: 1;
+      transform: translateY(0);
+      position: relative;
+    }
+
+    .meta-bar {
+      transition: opacity 0.3s ease;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    kbd {
+      font-family: inherit;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #a1a1aa;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(24,24,27,0.95);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      color: #e4e4e7;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 12px 32px -8px rgba(0,0,0,0.5);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast.success { border-color: rgba(34,197,94,0.3); }
+    .toast.error { border-color: rgba(239,68,68,0.3); }
+
+    .preview-hint {
+      font-size: 0.7rem;
+      color: #71717a;
+      transition: color 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+  <div class="absolute inset-0">
+    <div class="bg-blur-circle top-[-5%] left-[15%] w-80 h-80 bg-white/25"></div>
+    <div class="bg-blur-circle top-[10%] right-[10%] w-72 h-72 bg-zinc-400/20"></div>
+    <div class="bg-blur-circle bottom-[5%] left-[25%] w-96 h-96 bg-zinc-500/15"></div>
+    <div class="bg-blur-circle bottom-[-5%] right-[15%] w-64 h-64 bg-white/10"></div>
+  </div>
+  <div class="absolute inset-0 bg-grid-pattern"></div>
+</div>
+
+<nav class="navbar fixed inset-x-0 top-0 z-50 h-14 sm:h-16 flex items-center px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto w-full flex items-center justify-between">
+    <a href="#" class="font-semibold text-base sm:text-lg tracking-tight flex items-center gap-2.5 group">
+      <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white font-bold text-xs sm:text-sm group-hover:bg-white/15 group-hover:scale-105 transition-all duration-300">D</span>
+      <span class="text-white">Dex<span class="text-zinc-500 font-normal">Web</span></span>
+    </a>
+    <a href="index.html" class="text-sm text-zinc-400 hover:text-white transition-all duration-200 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-white/5 active:scale-95">
+      <i class="fas fa-arrow-left text-[10px]"></i>
+      <span>Back</span>
+    </a>
+  </div>
+</nav>
+
+<main class="pt-20 sm:pt-24 pb-16 px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-8 sm:mb-12">
+      <div class="inline-flex items-center gap-2 badge-pill mb-4">
+        <span class="status-dot"></span>
+        <span>Live Screenshot Tool</span>
+      </div>
+      <h1 class="font-semibold text-2xl sm:text-4xl lg:text-[2.75rem] text-white tracking-tight mb-2.5 leading-tight">
+        Web Screenshot Tool
+      </h1>
+      <p class="text-zinc-500 text-sm sm:text-[0.95rem] max-w-md mx-auto leading-relaxed">
+        Capture clean screenshots of any website — desktop or mobile, light or dark mode.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-5 lg:gap-7">
+
+      <div class="lg:col-span-2">
+        <div class="glass-card rounded-2xl p-5 sm:p-6 h-full">
+          <div class="flex items-center justify-between mb-5">
+            <h3 class="font-medium text-[0.95rem] text-white flex items-center gap-2.5">
+              <span class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center">
+                <i class="fas fa-sliders-h text-zinc-400 text-[10px]"></i>
+              </span>
+              Settings
+            </h3>
+            <span id="liveHint" class="preview-hint">Desktop · Dark</span>
+          </div>
+
+          <form id="sswebForm" class="space-y-4.5" onsubmit="captureScreenshot(event)">
+
+            <div>
+              <label for="sswebUrl" class="block text-[0.65rem] font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Website URL</label>
+              <div id="urlWrap" class="input-wrap flex items-center gap-2.5 bg-white/[0.03] border border-white/10 rounded-xl px-3.5 py-3">
+                <i class="fas fa-link text-zinc-500 text-xs shrink-0"></i>
+                <input
+                  type="url"
+                  id="sswebUrl"
+                  value="https://google.com"
+                  placeholder="https://example.com"
+                  class="flex-1 bg-transparent border-none text-white placeholder:text-zinc-600 focus:outline-none text-sm"
+                  required
+                  autocomplete="url"
+                />
+                <button type="button" id="clearUrl" class="text-zinc-600 hover:text-zinc-400 transition opacity-0 pointer-events-none" title="Clear">
+                  <i class="fas fa-times text-xs"></i>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[0.65rem] font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Device</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="option-card flex items-center gap-2 p-3 rounded-xl border border-white/10 cursor-pointer">
+                  <input type="radio" name="device" value="desktop" checked class="accent-white shrink-0" onchange="updateLiveHint()" />
+                  <i class="fas fa-desktop text-xs text-zinc-400"></i>
+                  <span class="text-sm text-white font-medium">Desktop</span>
+                </label>
+                <label class="option-card flex items-center gap-2 p-3 rounded-xl border border-white/10 cursor-pointer">
+                  <input type="radio" name="device" value="mobile" class="accent-white shrink-0" onchange="updateLiveHint()" />
+                  <i class="fas fa-mobile-alt text-xs text-zinc-400"></i>
+                  <span class="text-sm text-white font-medium">Mobile</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[0.65rem] font-medium text-zinc-500 mb-1.5 uppercase tracking-wider">Theme</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="option-card flex items-center gap-2 p-3 rounded-xl border border-white/10 cursor-pointer">
+                  <input type="radio" name="theme" value="dark" checked class="accent-white shrink-0" onchange="updateLiveHint()" />
+                  <i class="fas fa-moon text-xs text-zinc-400"></i>
+                  <span class="text-sm text-white font-medium">Dark</span>
+                </label>
+                <label class="option-card flex items-center gap-2 p-3 rounded-xl border border-white/10 cursor-pointer">
+                  <input type="radio" name="theme" value="light" class="accent-white shrink-0" onchange="updateLiveHint()" />
+                  <i class="fas fa-sun text-xs text-zinc-400"></i>
+                  <span class="text-sm text-white font-medium">Light</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="option-card flex items-center gap-3 p-3 rounded-xl border border-white/10 cursor-pointer">
+                <input type="checkbox" id="sswebFullPage" class="accent-white w-3.5 h-3.5 shrink-0" onchange="updateLiveHint()" />
+                <i class="fas fa-expand text-xs text-zinc-400"></i>
+                <div class="flex-1">
+                  <span class="text-sm text-white font-medium block leading-tight">Full Page</span>
+                  <span class="text-[0.65rem] text-zinc-500">Entire scrollable height</span>
+                </div>
+              </label>
+            </div>
+
+            <div class="space-y-2.5 pt-1">
+              <button
+                type="submit"
+                id="sswebBtn"
+                class="btn-primary w-full inline-flex justify-center items-center gap-2 bg-white hover:bg-zinc-100 text-black font-semibold px-5 py-3 rounded-xl text-sm"
+              >
+                <i class="fas fa-camera text-xs"></i>
+                <span id="sswebBtnText">Capture Screenshot</span>
+                <span id="sswebSpinner" class="hidden"><i class="fas fa-spinner fa-spin text-xs"></i></span>
+              </button>
+
+              <a
+                id="sswebDownload"
+                href="#"
+                download="screenshot.png"
+                class="btn-download hidden w-full inline-flex justify-center items-center gap-2 bg-emerald-500/10 text-emerald-400 font-medium px-5 py-3 rounded-xl border border-emerald-500/20 text-sm"
+              >
+                <i class="fas fa-download text-xs"></i>
+                Download PNG
+              </a>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <div class="lg:col-span-3">
+        <div class="glass-card rounded-2xl p-4 sm:p-5 min-h-[400px] sm:min-h-[440px] flex flex-col relative overflow-hidden">
+
+          <div id="sswebLoading" class="state-panel hidden-state flex-1 flex flex-col items-center justify-center gap-4">
+            <div class="relative flex items-center justify-center">
+              <div class="pulse-ring"></div>
+              <div class="spinner"></div>
+            </div>
+            <div class="text-center">
+              <p class="text-zinc-300 text-sm font-medium">Capturing screenshot...</p>
+              <p class="text-zinc-600 text-xs mt-1">Usually takes a few seconds</p>
+            </div>
+          </div>
+
+          <div id="sswebResult" class="state-panel hidden-state flex-1 flex flex-col">
+            <div class="screenshot-box flex-1">
+              <img id="sswebImage" src="" alt="Website screenshot" />
+            </div>
+            <div class="meta-bar flex items-center justify-between mt-3.5 px-0.5 text-[0.7rem] text-zinc-500">
+              <span class="flex items-center gap-1.5 truncate max-w-[55%]">
+                <i class="fas fa-globe text-[9px]"></i>
+                <span id="sswebCapturedUrl" class="truncate">google.com</span>
+              </span>
+              <span id="sswebTimestamp" class="shrink-0 tabular-nums"></span>
+            </div>
+          </div>
+
+          <div id="sswebEmpty" class="state-panel active-state flex-1 flex flex-col items-center justify-center text-center px-4">
+            <div class="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-white/[0.035] border border-white/[0.06] flex items-center justify-center mb-4 empty-icon" style="width:4.5rem;height:4.5rem">
+              <i class="fas fa-globe text-2xl sm:text-3xl text-zinc-600"></i>
+            </div>
+            <h4 class="text-white font-medium text-base mb-1">Ready to Capture</h4>
+            <p class="text-zinc-500 text-sm max-w-[240px] leading-relaxed">
+              Enter a URL and hit capture. Preview appears here instantly.
+            </p>
+            <p class="text-zinc-600 text-xs mt-4 flex items-center gap-1.5">
+              <kbd>Ctrl</kbd>
+              <span>+</span>
+              <kbd>Enter</kbd>
+              <span class="ml-0.5">to capture</span>
+            </p>
+          </div>
+
+          <div id="sswebError" class="state-panel hidden-state flex-1 flex flex-col items-center justify-center text-center px-4">
+            <div class="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center mb-4">
+              <i class="fas fa-exclamation-triangle text-lg text-amber-400/80"></i>
+            </div>
+            <p class="text-white font-medium text-sm">Failed to capture</p>
+            <p id="sswebErrorMsg" class="text-zinc-500 text-xs mt-1.5 max-w-[240px]">Please try again or check the URL</p>
+            <button type="button" onclick="resetToEmpty()" class="mt-5 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white text-xs transition border border-white/10 active:scale-95">
+              <i class="fas fa-redo mr-1.5"></i> Try Again
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast" class="toast">
+  <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-sm"></i>
+  <span id="toastMsg">Screenshot captured</span>
+</div>
+
+<script>
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => document.querySelectorAll(sel);
+
+  function updateLiveHint() {
+    const device = $('input[name="device"]:checked')?.value || 'desktop';
+    const theme = $('input[name="theme"]:checked')?.value || 'dark';
+    const full = $('#sswebFullPage')?.checked;
+    const deviceLabel = device === 'mobile' ? 'Mobile' : 'Desktop';
+    const themeLabel = theme === 'light' ? 'Light' : 'Dark';
+    const fullLabel = full ? ' · Full' : '';
+    const el = $('#liveHint');
+    if (el) {
+      el.style.opacity = '0.4';
+      setTimeout(() => {
+        el.textContent = `${deviceLabel} · ${themeLabel}${fullLabel}`;
+        el.style.opacity = '1';
+      }, 120);
+    }
+  }
+
+  function showState(id) {
+    ['sswebEmpty', 'sswebLoading', 'sswebResult', 'sswebError'].forEach(s => {
+      const el = document.getElementById(s);
+      if (!el) return;
+      if (s === id) {
+        el.classList.remove('hidden-state');
+        el.classList.add('active-state');
+      } else {
+        el.classList.add('hidden-state');
+        el.classList.remove('active-state');
+      }
+    });
+  }
+
+  function showToast(msg, type = 'success') {
+    const toast = $('#toast');
+    const icon = $('#toastIcon');
+    const text = $('#toastMsg');
+    text.textContent = msg;
+    toast.classList.remove('success', 'error');
+    toast.classList.add(type);
+    icon.className = type === 'success'
+      ? 'fas fa-check-circle text-emerald-400 text-sm'
+      : 'fas fa-exclamation-circle text-red-400 text-sm';
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function resetToEmpty() {
+    showState('sswebEmpty');
+    const dl = $('#sswebDownload');
+    dl.classList.add('hidden');
+    dl.classList.remove('show');
+  }
+
+  const urlInput = $('#sswebUrl');
+  const clearBtn = $('#clearUrl');
+
+  urlInput.addEventListener('input', () => {
+    const has = urlInput.value.trim().length > 0;
+    clearBtn.style.opacity = has ? '1' : '0';
+    clearBtn.style.pointerEvents = has ? 'auto' : 'none';
+  });
+
+  clearBtn.addEventListener('click', () => {
+    urlInput.value = '';
+    urlInput.focus();
+    clearBtn.style.opacity = '0';
+    clearBtn.style.pointerEvents = 'none';
+  });
+
+  async function captureScreenshot(event) {
+    event.preventDefault();
+
+    const url = urlInput.value.trim();
+    const wrap = $('#urlWrap');
+
+    if (!url) {
+      wrap.classList.add('error');
+      urlInput.focus();
+      setTimeout(() => wrap.classList.remove('error'), 600);
+      return;
+    }
+
+    const device = $('input[name="device"]:checked').value;
+    const theme = $('input[name="theme"]:checked').value;
+    const fullPage = $('#sswebFullPage').checked;
+
+    const btn = $('#sswebBtn');
+    const btnText = $('#sswebBtnText');
+    const spinner = $('#sswebSpinner');
+    const image = $('#sswebImage');
+    const download = $('#sswebDownload');
+    const capturedUrl = $('#sswebCapturedUrl');
+    const timestamp = $('#sswebTimestamp');
+
+    btn.disabled = true;
+    btnText.textContent = 'Capturing...';
+    spinner.classList.remove('hidden');
+    download.classList.add('hidden');
+    download.classList.remove('show');
+    image.classList.remove('loaded');
+    showState('sswebLoading');
+
+    try {
+      const encodedUrl = encodeURIComponent(url);
+      const apiUrl = `https://api.siputzx.my.id/api/tools/ssweb?url=${encodedUrl}&device=${device}&theme=${theme}&fullPage=${fullPage}`;
+
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+
+      if (!blob.type.startsWith('image/')) {
+        const text = await blob.text();
+        console.error('API returned non-image:', text);
+        throw new Error('API returned unexpected response');
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
+
+      image.onload = () => {
+        image.classList.add('loaded');
+      };
+      image.src = objectUrl;
+
+      try {
+        capturedUrl.textContent = new URL(url).hostname;
+      } catch {
+        capturedUrl.textContent = url;
+      }
+      timestamp.textContent = new Date().toLocaleString();
+
+      download.href = objectUrl;
+      download.download = `screenshot-${Date.now()}.png`;
+      download.classList.remove('hidden');
+      requestAnimationFrame(() => download.classList.add('show'));
+
+      showState('sswebResult');
+      showToast('Screenshot captured successfully');
+
+    } catch (error) {
+      console.error('Screenshot error:', error);
+      $('#sswebErrorMsg').textContent = error.message || 'Please try again or check the URL';
+      showState('sswebError');
+      showToast(error.message || 'Capture failed', 'error');
+    } finally {
+      btn.disabled = false;
+      btnText.textContent = 'Capture Screenshot';
+      spinner.classList.add('hidden');
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      $('#sswebForm').dispatchEvent(new Event('submit'));
+    }
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    urlInput.focus();
+    if (urlInput.value.trim()) {
+      clearBtn.style.opacity = '1';
+      clearBtn.style.pointerEvents = 'auto';
+    }
+    updateLiveHint();
+  });
+</script>
+
+</body>
+</html>

@@ -40,7 +40,6 @@
     </script>
 
     <style>
-        /* Loading Screen Styles */
         #loadingScreen {
             position: fixed;
             inset: 0;
@@ -302,7 +301,6 @@
             display: block;
         }
 
-        /* Audio Player Styles */
         .audio-player-btn {
             position: fixed;
             bottom: 24px;
@@ -423,16 +421,6 @@
             vertical-align: text-bottom;
         }
 
-        @keyframes blink {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0;
-            }
-        }
-
         .typing-cursor {
             height: 1.1em;
             background: #ffffff;
@@ -443,7 +431,6 @@
             background: #9ca3af;
         }
 
-        /* Custom component classes (as in original) */
         .bg-blur-circle {
             position: absolute;
             border-radius: 9999px;
@@ -577,6 +564,39 @@
         .profile-glow {
             box-shadow: 0 0 60px -12px rgba(255, 255, 255, 0.1), inset 0 0 60px -12px rgba(255, 255, 255, 0.02);
         }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal.d1 {
+            transition-delay: 0.05s;
+        }
+        .reveal.d2 {
+            transition-delay: 0.1s;
+        }
+        .reveal.d3 {
+            transition-delay: 0.15s;
+        }
+        .reveal.d4 {
+            transition-delay: 0.2s;
+        }
+        .reveal.d5 {
+            transition-delay: 0.25s;
+        }
+        .cbox-wrapper {
+            background: rgba(10, 10, 10, 0.8);
+        }
+        .cbox-iframe {
+            background: transparent !important;
+        }
+        .nl.active {
+            color: white !important;
+        }
     </style>
 </head>
 
@@ -649,6 +669,8 @@
                     <li><a href="#about" class="nl text-zinc-400 hover:text-white transition" :class="activeSection==='about'?'active':''">About</a></li>
                     <li><a href="#portfolio" class="nl text-zinc-400 hover:text-white transition" :class="activeSection==='portfolio'?'active':''">Portfolio</a></li>
                     <li><a href="projects.html" class="nl text-zinc-400 hover:text-white transition">Projects</a></li>
+                    <li><a href="index-ai.html" class="nl text-zinc-400 hover:text-white transition"><i class="fas fa-robot text-xs mr-1"></i>AI Chat</a></li>
+                    <li><a href="index-ssweb.html" class="nl text-zinc-400 hover:text-white transition"><i class="fas fa-camera text-xs mr-1"></i>Screenshot</a></li>
                     <li><a href="#contact" class="nl text-zinc-400 hover:text-white transition" :class="activeSection==='contact'?'active':''">Contact</a></li>
                 </ul>
 
@@ -672,6 +694,8 @@
                     <li><a href="#about" @click="mobileMenu=false" class="text-zinc-300 hover:text-white transition py-2">About</a></li>
                     <li><a href="#portfolio" @click="mobileMenu=false" class="text-zinc-300 hover:text-white transition py-2">Portfolio</a></li>
                     <li><a href="projects.html" @click="mobileMenu=false" class="text-zinc-300 hover:text-white transition py-2">Projects</a></li>
+                    <li><a href="index-ai.html" @click="mobileMenu=false" class="text-zinc-300 hover:text-white transition py-2"><i class="fas fa-robot mr-2"></i>AI Chat</a></li>
+                    <li><a href="index-ssweb.html" @click="mobileMenu=false" class="text-zinc-300 hover:text-white transition py-2"><i class="fas fa-camera mr-2"></i>Screenshot</a></li>
                     <li><a href="#contact" @click="mobileMenu=false" class="text-zinc-300 hover:text-white transition py-2">Contact</a></li>
                     <li class="pt-2"><a href="#contact" @click="mobileMenu=false" class="inline-flex bg-white text-black px-6 py-2.5 rounded-full text-center justify-center w-full">Hire Me</a></li>
                 </ul>
@@ -706,8 +730,11 @@
                                 <a href="#portfolio" class="shimmer inline-flex items-center gap-2 bg-white hover:bg-zinc-200 text-black font-medium px-6 py-3 rounded-full transition-all text-sm hover:scale-105 shadow-lg shadow-white/20">
                                     View Portfolio <i class="fas fa-arrow-right text-xs"></i>
                                 </a>
-                                <a href="projects.html" class="inline-flex items-center gap-2 border border-white/10 px-6 py-3 rounded-full hover:border-white hover:bg-white/5 transition-all text-sm">
-                                    <i class="fas fa-code text-xs"></i> All Projects
+                                <a href="index-ai.html" class="inline-flex items-center gap-2 border border-white/10 px-6 py-3 rounded-full hover:border-white hover:bg-white/5 transition-all text-sm">
+                                    <i class="fas fa-robot text-xs"></i> AI Chat
+                                </a>
+                                <a href="index-ssweb.html" class="inline-flex items-center gap-2 border border-white/10 px-6 py-3 rounded-full hover:border-white hover:bg-white/5 transition-all text-sm">
+                                    <i class="fas fa-camera text-xs"></i> Screenshot
                                 </a>
                             </div>
                         </div>
@@ -885,7 +912,53 @@
                             </div>
                             <div class="flex flex-wrap gap-2 mt-3">
                                 <span class="tech-badge text-xs">Profile</span>
-                                <span class="tech-badge text-xs">Businnes</span>
+                                <span class="tech-badge text-xs">Business</span>
+                            </div>
+                        </a>
+
+                        <a href="index-ai.html" target="_blank" class="project-card group block hover:no-underline">
+                            <div class="relative overflow-hidden rounded-xl mb-3">
+                                <div class="w-full aspect-video bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center">
+                                    <i class="fas fa-robot text-5xl text-white/30 group-hover:text-white/50 transition"></i>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                    <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Open Tool</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-display font-semibold text-lg text-white group-hover:text-accent transition">DEX AI Chat</h3>
+                                    <p class="text-sm text-zinc-400">AI-powered chatbot with multiple models</p>
+                                </div>
+                                <span class="text-xs text-zinc-500 group-hover:text-accent transition"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="tech-badge text-xs">AI</span>
+                                <span class="tech-badge text-xs">Chat</span>
+                                <span class="tech-badge text-xs">JavaScript</span>
+                            </div>
+                        </a>
+
+                        <a href="index-ssweb.html" target="_blank" class="project-card group block hover:no-underline">
+                            <div class="relative overflow-hidden rounded-xl mb-3">
+                                <div class="w-full aspect-video bg-gradient-to-br from-green-500/20 to-teal-500/20 flex items-center justify-center">
+                                    <i class="fas fa-camera text-5xl text-white/30 group-hover:text-white/50 transition"></i>
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                    <span class="text-white text-sm font-medium"><i class="fas fa-external-link-alt mr-2"></i>Open Tool</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-display font-semibold text-lg text-white group-hover:text-accent transition">Web Screenshot</h3>
+                                    <p class="text-sm text-zinc-400">Capture website screenshots instantly</p>
+                                </div>
+                                <span class="text-xs text-zinc-500 group-hover:text-accent transition"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="tech-badge text-xs">Screenshot</span>
+                                <span class="tech-badge text-xs">API</span>
+                                <span class="tech-badge text-xs">JavaScript</span>
                             </div>
                         </a>
 
@@ -1123,10 +1196,8 @@
 </main>
 
 </div>
-<!-- End Main Content -->
 
 <script>
-    // --- Loading Screen Logic ---
     (function() {
         const loadingScreen = document.getElementById('loadingScreen');
         const mainContent = document.getElementById('mainContent');
@@ -1135,7 +1206,6 @@
         const loadingText = document.getElementById('loadingText');
         const cursor = document.getElementById('loadingCursor');
 
-        // Typing text for loading screen
         const loadingMessages = [
             'Initializing portfolio...',
             'Loading components...',
@@ -1171,13 +1241,10 @@
             }
         }
 
-        // Start typing
         setTimeout(typeLoadingMessage, 400);
 
-        // Progress bar simulation
         let progress = 0;
         const interval = setInterval(() => {
-            // Random increment between 3 and 12
             const increment = Math.floor(Math.random() * 10) + 3;
             progress = Math.min(progress + increment, 100);
             barFill.style.width = progress + '%';
@@ -1185,18 +1252,15 @@
 
             if (progress >= 100) {
                 clearInterval(interval);
-                // Wait a bit then hide loading screen
                 setTimeout(() => {
                     loadingScreen.classList.add('hide');
                     document.body.classList.remove('loading');
                     mainContent.classList.add('show');
-                    // Trigger any init functions
                     if (typeof initAudio === 'function') initAudio();
                 }, 400);
             }
         }, 300);
 
-        // Fallback: if something goes wrong, force hide after 10s
         setTimeout(() => {
             if (!loadingScreen.classList.contains('hide')) {
                 loadingScreen.classList.add('hide');
@@ -1206,7 +1270,6 @@
         }, 10000);
     })();
 
-    // --- Audio Logic ---
     const audio = document.getElementById('bgAudio');
     const btn = document.getElementById('audioToggle');
     let isPlaying = false;
@@ -1236,13 +1299,11 @@
     }
 
     function initAudio() {
-        // This will be called after loading screen hides
         window.addEventListener('scroll', startAudio, { once: true, passive: true });
         document.addEventListener('click', startAudio, { once: true });
         document.addEventListener('touchstart', startAudio, { once: true, passive: true });
     }
 
-    // --- Typing Effects for Hero ---
     const nameText = "Afrizal Maulana";
     const descText = "A passionate developer and programmer creating digital solutions through innovative code.";
 
@@ -1283,17 +1344,120 @@
         }
     }
 
-    // Start hero typing after page loads
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeName, 500);
     });
 
-    // Re-run when main content appears (for cases where DOMContentLoaded already fired)
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         setTimeout(typeName, 500);
     }
 </script>
 
-<script src="js/main.js"></script>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('app', () => ({
+            dark: false,
+            scrolled: false,
+            mobileMenu: false,
+            activeTab: 'projects',
+            activeSection: 'hero',
+            currentAge: 14,
+
+            init() {
+                const birthDate = new Date(2011, 4, 12);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+                this.currentAge = age;
+
+                window.addEventListener('scroll', () => {
+                    this.scrolled = window.scrollY > 50;
+
+                    const sections = ['hero', 'about', 'portfolio', 'contact'];
+                    let current = 'hero';
+                    for (const section of sections) {
+                        const el = document.getElementById(section);
+                        if (el) {
+                            const rect = el.getBoundingClientRect();
+                            if (rect.top <= 100) current = section;
+                        }
+                    }
+                    this.activeSection = current;
+                }, { passive: true });
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    orientation: 'vertical',
+                    smoothWheel: true,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+        }));
+
+        Alpine.data('dragCard', () => ({
+            x: 0,
+            y: 0,
+            rotate: 0,
+            scale: 1,
+            isDragging: false,
+            startX: 0,
+            startY: 0,
+            originX: 0,
+            originY: 0,
+            originRotate: 0,
+
+            startDrag(e) {
+                this.isDragging = true;
+                const touch = e.touches ? e.touches[0] : e;
+                this.startX = touch.clientX;
+                this.startY = touch.clientY;
+                this.originX = this.x;
+                this.originY = this.y;
+                this.originRotate = this.rotate;
+            },
+
+            onDrag(e) {
+                if (!this.isDragging) return;
+                const touch = e.touches ? e.touches[0] : e;
+                const dx = touch.clientX - this.startX;
+                const dy = touch.clientY - this.startY;
+                this.x = this.originX + dx * 0.3;
+                this.y = this.originY + dy * 0.3;
+                this.rotate = this.originRotate + dx * 0.02;
+                this.scale = 1 + (Math.abs(dx) + Math.abs(dy)) * 0.0005;
+            },
+
+            endDrag() {
+                this.isDragging = false;
+                this.scale = 1;
+                setTimeout(() => {
+                    this.x = 0;
+                    this.y = 0;
+                    this.rotate = 0;
+                }, 200);
+            }
+        }));
+    });
+</script>
+
+<script src="js/main.js">
+</script>
 </body>
 </html>

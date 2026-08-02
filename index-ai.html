@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>DEX · AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #080808;
+      color: #eceef2;
+      display: flex;
+      min-height: 100dvh;
+      overflow: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 99px; }
+
+    .sidebar {
+      width: 270px;
+      background: rgba(12, 12, 14, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-right: 1px solid rgba(255,255,255,0.04);
+      height: 100dvh;
+      max-height: 100dvh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+      padding: 1.1rem 0.75rem;
+      display: none;
+      z-index: 30;
+      transition: transform 0.25s ease;
+      box-shadow: 8px 0 30px rgba(0,0,0,0.3);
+    }
+    @media (min-width: 768px) { .sidebar { display: flex; flex-direction: column; } }
+
+    .sidebar .logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      padding: 0.4rem 0.75rem 0.8rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .sidebar .logo span {
+      background: rgba(255,255,255,0.04);
+      padding: 0.15rem 0.6rem;
+      border-radius: 40px;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #8e8e93;
+    }
+    .sidebar .new-chat-btn {
+      width: 100%;
+      margin: 1rem 0 1.25rem;
+      padding: 0.65rem 0.9rem;
+      border-radius: 40px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+      color: #f0f0f0;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+    .sidebar .new-chat-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); transform: scale(0.98); }
+    .sidebar .new-chat-btn i { font-size: 0.8rem; opacity: 0.7; }
+
+    .sidebar .menu-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #5c5c62;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0.75rem 0.2rem;
+    }
+
+    .chat-history-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 0.75rem;
+      border-radius: 30px;
+      color: #a6a6ab;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-bottom: 0.1rem;
+      border: 1px solid transparent;
+    }
+    .chat-history-item:hover { background: rgba(255,255,255,0.04); color: #f0f0f0; }
+    .chat-history-item.active { background: rgba(255,255,255,0.06); color: white; border-color: rgba(255,255,255,0.06); }
+    .chat-history-item .delete-btn {
+      margin-left: auto;
+      background: transparent;
+      border: none;
+      color: #4a4a50;
+      cursor: pointer;
+      font-size: 0.65rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 20px;
+      transition: 0.15s;
+    }
+    .chat-history-item .delete-btn:hover { color: #e06b6b; background: rgba(224,107,107,0.08); }
+
+    .main-content {
+      flex: 1;
+      margin-left: 0;
+      height: 100dvh;
+      max-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at 20% 20%, rgba(60,60,70,0.15) 0%, transparent 70%);
+      overflow: hidden;
+    }
+    @media (min-width: 768px) { .main-content { margin-left: 270px; } }
+
+    .ai-header {
+      padding: 0.7rem 1.4rem 0.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+      background: rgba(0,0,0,0.15);
+      backdrop-filter: blur(8px);
+      flex-shrink: 0;
+    }
+    .ai-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .ai-selector .label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #5a5a60;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Modern Custom Dropdown */
+    .custom-dropdown {
+      position: relative;
+      display: inline-block;
+      min-width: 180px;
+    }
+    .dropdown-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 40px;
+      padding: 0.35rem 1.2rem 0.35rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 450;
+      color: #eceef2;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .dropdown-trigger:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); }
+    .dropdown-trigger .arrow { margin-left: 0.3rem; font-size: 0.6rem; opacity: 0.6; transition: transform 0.2s; }
+    .dropdown-trigger.open .arrow { transform: rotate(180deg); }
+    .dropdown-trigger .badge-model {
+      font-size: 0.55rem;
+      background: rgba(255,255,255,0.06);
+      padding: 0.1rem 0.5rem;
+      border-radius: 30px;
+      color: #8e8e93;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: rgba(16,16,18,0.96);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 0.4rem 0.2rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px) scale(0.96);
+      transition: all 0.18s ease;
+      z-index: 60;
+      min-width: 100%;
+    }
+    .dropdown-menu.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 30px;
+      color: #c8c8ce;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .dropdown-item:hover { background: rgba(255,255,255,0.06); color: #f0f0f0; }
+    .dropdown-item.active { background: rgba(255,255,255,0.08); color: white; }
+    .dropdown-item .item-badge {
+      font-size: 0.55rem;
+      background: rgba(255,255,255,0.04);
+      padding: 0.05rem 0.5rem;
+      border-radius: 30px;
+      color: #7a7a80;
+      margin-left: auto;
+    }
+    .dropdown-item.active .item-badge { background: rgba(255,255,255,0.07); color: #aaa; }
+
+    .model-info { font-size: 0.6rem; color: #4a4a50; margin-left: auto; white-space: nowrap; }
+    .model-info a { color: #5a5a60; text-decoration: none; border-bottom: 1px dotted #2a2a2e; }
+    .model-info a:hover { color: #ccc; }
+
+    .chat-area {
+      flex: 1;
+      padding: 0.9rem 1.4rem 0.4rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+      min-height: 0;
+    }
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #3c3c42;
+      opacity: 0.7;
+    }
+    .empty-state .icon { font-size: 2.8rem; margin-bottom: 0.6rem; opacity: 0.3; }
+    .empty-state h3 { color: #5c5c62; font-weight: 400; font-size: 0.95rem; }
+
+    .message {
+      animation: fadeSlide 0.25s ease;
+      margin-bottom: 0.9rem;
+      max-width: 82%;
+    }
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .message.user { align-self: flex-end; }
+    .message.ai { align-self: flex-start; }
+    .message .bubble {
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      word-break: break-word;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .message.user .bubble {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.04);
+      color: #f0f0f0;
+      border-radius: 20px 8px 20px 20px;
+    }
+    .message.ai .bubble {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+      color: #d4d6dc;
+      border-radius: 8px 20px 20px 20px;
+    }
+    .message .bubble .model-tag {
+      font-size: 0.55rem;
+      color: #5c5c62;
+      margin-bottom: 0.2rem;
+      display: block;
+      font-weight: 500;
+    }
+    .typing-indicator {
+      display: flex;
+      gap: 0.35rem;
+      padding: 0.4rem 0;
+      align-items: center;
+      margin-left: 0.2rem;
+    }
+    .typing-indicator span {
+      width: 5px;
+      height: 5px;
+      background: #5c5c62;
+      border-radius: 50%;
+      animation: typingDot 1.3s ease-in-out infinite;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingDot {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+      30% { transform: translateY(-6px); opacity: 0.9; }
+    }
+
+    .input-area {
+      padding: 0.5rem 1.4rem 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.02);
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      flex-shrink: 0;
+    }
+    .input-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 60px;
+      padding: 0.15rem 0.15rem 0.15rem 1.2rem;
+      transition: all 0.2s;
+    }
+    .input-wrapper:focus-within {
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.035);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.02);
+    }
+    .input-wrapper input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #eceef2;
+      padding: 0.6rem 0;
+      font-size: 0.9rem;
+      outline: none;
+      min-width: 0;
+    }
+    .input-wrapper input::placeholder { color: #3e3e44; font-weight: 350; }
+    .input-wrapper .btn-send {
+      padding: 0.4rem 1.1rem;
+      border-radius: 60px;
+      background: rgba(255,255,255,0.9);
+      color: #0a0a0a;
+      font-weight: 550;
+      font-size: 0.8rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn-send i { font-size: 0.7rem; opacity: 0.7; }
+    .btn-send:hover { background: white; transform: scale(0.96); }
+    .btn-send:disabled { opacity: 0.3; pointer-events: none; transform: none; }
+
+    .mobile-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.5rem 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      flex-shrink: 0;
+    }
+    @media (min-width: 768px) { .mobile-toggle { display: none; } }
+    .mobile-toggle .hamburger {
+      background: none;
+      border: none;
+      color: #d0d0d0;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.1rem 0.2rem;
+    }
+    .mobile-toggle .title { font-weight: 500; font-size: 0.9rem; color: #ddd; }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(6px);
+      z-index: 25;
+    }
+    .sidebar-overlay.open { display: block; }
+    @media (max-width: 767px) {
+      .sidebar.mobile-open {
+        display: flex;
+        flex-direction: column;
+        width: 280px;
+        background: rgba(8,8,10,0.95);
+        backdrop-filter: blur(20px);
+        transform: translateX(0);
+      }
+      .sidebar { transform: translateX(-100%); }
+    }
+
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-glow div {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(100px);
+      opacity: 0.25;
+    }
+    .bg-glow .g1 { width: 280px; height: 280px; top: -70px; left: -70px; background: #3a3a4a; }
+    .bg-glow .g2 { width: 320px; height: 320px; bottom: -60px; right: -80px; background: #2a2a3a; }
+    .bg-glow .g3 { width: 200px; height: 200px; top: 38%; left: 42%; background: #1a1a2a; }
+
+    .content-wrap {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"><div class="g1"></div><div class="g2"></div><div class="g3"></div></div>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">✦ DEX <span>AI</span></div>
+    <button class="new-chat-btn" onclick="newChat()"><i class="fas fa-plus-circle"></i> New Chat</button>
+    <div style="flex:1; overflow-y:auto;" id="chatHistory">
+      <div class="menu-label"><i class="far fa-clock" style="margin-right:6px;"></i> History</div>
+      <div id="historyList"></div>
+    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <div class="mobile-toggle">
+      <button class="hamburger" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <span class="title">DEX · AI</span>
+    </div>
+
+    <div class="ai-header">
+      <div class="ai-selector">
+        <span class="label">Model</span>
+        <!-- Custom Dropdown -->
+        <div class="custom-dropdown" id="modelDropdown">
+          <div class="dropdown-trigger" id="dropdownTrigger">
+            <span id="selectedLabel">GPT-5 Mini</span>
+            <span class="badge-model" id="selectedBadge">OpenAI</span>
+            <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <div class="dropdown-item active" data-value="gemini" data-label="GPT-5 Mini" data-badge="OpenAI">
+              <span>GPT-5 Mini</span>
+              <span class="item-badge">OpenAI</span>
+            </div>
+            <div class="dropdown-item" data-value="gita" data-label="GPT-5.6" data-badge="OpenAI">
+              <span>GPT-5.6</span>
+              <span class="item-badge">OpenAI</span>
+            </div>
+            <div class="dropdown-item" data-value="gpt" data-label="GPT-5.4" data-badge="OpenAI">
+              <span>GPT-5.4</span>
+              <span class="item-badge">OpenAI</span>
+            </div>
+          </div>
+        </div>
+        <span class="model-info"><a href="#" onclick="return false;">capabilities →</a></span>
+      </div>
+    </div>
+
+    <div class="chat-area" id="chatArea">
+      <div class="empty-state" id="emptyState">
+        <div class="icon">✦</div>
+        <h3 id="emptyTitle">GPT-5 Mini</h3>
+        <p style="font-size:0.75rem; color:#3a3a40; margin-top:0.2rem;">Ask me anything</p>
+      </div>
+      <div id="messagesContainer"></div>
+      <div id="typingIndicator" style="display:none;" class="typing-indicator">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-wrapper">
+        <input type="text" id="userInput" placeholder="+ Type a message..." autofocus />
+        <button class="btn-send" id="sendBtn"><i class="fas fa-paper-plane"></i> Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ============================================================
+      // STATE
+      // ============================================================
+      let currentAI = 'gemini';
+      let isTyping = false;
+      let currentMessages = [];
+      let chatHistory = [];
+      let chatIdCounter = 0;
+      let currentChatId = null;
+
+      // DOM refs
+      const chatArea = document.getElementById('chatArea');
+      const messagesContainer = document.getElementById('messagesContainer');
+      const emptyState = document.getElementById('emptyState');
+      const emptyTitle = document.getElementById('emptyTitle');
+      const userInput = document.getElementById('userInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const typingIndicator = document.getElementById('typingIndicator');
+      const historyList = document.getElementById('historyList');
+
+      // Dropdown elements
+      const dropdownTrigger = document.getElementById('dropdownTrigger');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      const selectedLabel = document.getElementById('selectedLabel');
+      const selectedBadge = document.getElementById('selectedBadge');
+      const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+      const aiConfig = {
+        gemini: { label: 'GEMINI-3.6', display: 'GPT-5 Mini', badge: 'OpenAI' },
+        gita: { label: 'GPT-5.6', display: 'GPT-5.6', badge: 'OpenAI' },
+        gpt: { label: 'GPT-5.4', display: 'GPT-5.4', badge: 'OpenAI' }
+      };
+
+      // ============================================================
+      // DROPDOWN LOGIC
+      // ============================================================
+      function toggleDropdown(e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('open');
+        dropdownTrigger.classList.toggle('open');
+      }
+
+      function closeDropdown() {
+        dropdownMenu.classList.remove('open');
+        dropdownTrigger.classList.remove('open');
+      }
+
+      function selectModel(value, label, badge) {
+        if (value === currentAI) { closeDropdown(); return; }
+        // Save current chat before switching
+        if (currentMessages.length) saveCurrentChat();
+
+        currentAI = value;
+        selectedLabel.textContent = label;
+        selectedBadge.textContent = badge;
+        dropdownItems.forEach(item => {
+          item.classList.toggle('active', item.dataset.value === value);
+        });
+
+        // Reset to new chat
+        currentChatId = null;
+        currentMessages = [];
+        messagesContainer.innerHTML = '';
+        emptyState.style.display = 'flex';
+        emptyTitle.textContent = aiConfig[currentAI].label;
+        renderHistory();
+        userInput.focus();
+        closeDropdown();
+      }
+
+      dropdownTrigger.addEventListener('click', toggleDropdown);
+      dropdownItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.stopPropagation();
+          selectModel(this.dataset.value, this.dataset.label, this.dataset.badge);
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        const container = document.getElementById('modelDropdown');
+        if (container && !container.contains(e.target)) closeDropdown();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeDropdown();
+      });
+
+      // ============================================================
+      // HISTORY & CHAT MANAGEMENT
+      // ============================================================
+      function loadHistory() {
+        try {
+          const s = localStorage.getItem('dexChatHistory');
+          if (s) {
+            chatHistory = JSON.parse(s);
+            chatIdCounter = chatHistory.length ? Math.max(...chatHistory.map(c => c.id)) + 1 : 0;
+          }
+        } catch(e) { chatHistory = []; }
+        renderHistory();
+      }
+
+      function saveHistory() {
+        try {
+          localStorage.setItem('dexChatHistory', JSON.stringify(chatHistory));
+        } catch(e) {}
+      }
+
+      function renderHistory() {
+        historyList.innerHTML = '';
+        if (!chatHistory.length) {
+          const empty = document.createElement('div');
+          empty.style.cssText = 'padding:0.6rem 0.75rem;font-size:0.7rem;color:#4a4a50;font-style:italic;';
+          empty.textContent = 'No chats saved';
+          historyList.appendChild(empty);
+          return;
+        }
+        // Show newest first
+        const sorted = [...chatHistory].reverse();
+        sorted.forEach(chat => {
+          const div = document.createElement('div');
+          div.className = `chat-history-item${currentChatId === chat.id ? ' active' : ''}`;
+          const msgCount = chat.messages ? chat.messages.length : 0;
+          div.innerHTML = `
+            <i class="fas fa-comment" style="font-size:0.6rem;color:#4a4a50;"></i>
+            <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${chat.title || 'Chat'}</span>
+            <span style="font-size:0.55rem;color:#4a4a50;margin-right:0.3rem;">${msgCount}</span>
+            <button class="delete-btn" onclick="event.stopPropagation();deleteChat(${chat.id})"><i class="fas fa-trash-alt"></i></button>
+          `;
+          div.onclick = () => loadChat(chat.id);
+          historyList.appendChild(div);
+        });
+      }
+
+      function loadChat(id) {
+        const chat = chatHistory.find(c => c.id === id);
+        if (!chat) return;
+
+        currentChatId = id;
+        currentAI = chat.ai || 'gemini';
+        currentMessages = chat.messages ? [...chat.messages] : [];
+
+        // Sync dropdown
+        const cfg = aiConfig[currentAI];
+        selectedLabel.textContent = cfg.display;
+        selectedBadge.textContent = cfg.badge;
+        dropdownItems.forEach(item => {
+          item.classList.toggle('active', item.dataset.value === currentAI);
+        });
+
+        emptyTitle.textContent = cfg.label;
+        renderMessages();
+        renderHistory();
+        emptyState.style.display = currentMessages.length ? 'none' : 'flex';
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      function renderMessages() {
+        messagesContainer.innerHTML = '';
+        currentMessages.forEach(msg => {
+          const div = document.createElement('div');
+          div.className = `message ${msg.role}`;
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+          if (msg.role === 'user') {
+            bubble.textContent = msg.content;
+          } else {
+            const tag = document.createElement('span');
+            tag.className = 'model-tag';
+            tag.textContent = `GPT ${aiConfig[currentAI].label}`;
+            bubble.appendChild(tag);
+            const lines = msg.content.split('\n');
+            lines.forEach((line, i) => {
+              if (line.trim()) {
+                const p = document.createElement('p');
+                p.textContent = line;
+                p.style.margin = '0.15rem 0';
+                bubble.appendChild(p);
+              } else if (i < lines.length - 1) {
+                const br = document.createElement('br');
+                bubble.appendChild(br);
+              }
+            });
+          }
+          div.appendChild(bubble);
+          messagesContainer.appendChild(div);
+        });
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      // ============================================================
+      // NEW CHAT — creates a fresh chat session
+      // ============================================================
+      function newChat() {
+        // Save current chat if it has messages
+        if (currentMessages.length) {
+          saveCurrentChat();
+        }
+        // Reset to empty state
+        currentChatId = null;
+        currentMessages = [];
+        messagesContainer.innerHTML = '';
+        emptyState.style.display = 'flex';
+        emptyTitle.textContent = aiConfig[currentAI].label;
+        typingIndicator.style.display = 'none';
+        userInput.value = '';
+        userInput.focus();
+        renderHistory();
+      }
+
+      // ============================================================
+      // SAVE CURRENT CHAT — saves as a new chat or updates existing
+      // ============================================================
+      function saveCurrentChat() {
+        if (!currentMessages.length) return;
+
+        // Get first user message as title
+        const firstMsg = currentMessages.find(m => m.role === 'user');
+        let title = firstMsg ? firstMsg.content.substring(0, 30) : 'Chat';
+        if (firstMsg && firstMsg.content.length > 30) title += '…';
+
+        if (currentChatId) {
+          // Update existing chat
+          const chat = chatHistory.find(c => c.id === currentChatId);
+          if (chat) {
+            chat.messages = [...currentMessages];
+            chat.title = title;
+            chat.ai = currentAI;
+            chat.updatedAt = Date.now();
+          }
+        } else {
+          // Create new chat
+          const newChatObj = {
+            id: chatIdCounter++,
+            title: title,
+            messages: [...currentMessages],
+            ai: currentAI,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+          };
+          chatHistory.push(newChatObj);
+          currentChatId = newChatObj.id;
+        }
+
+        saveHistory();
+        renderHistory();
+      }
+
+      // ============================================================
+      // DELETE CHAT
+      // ============================================================
+      function deleteChat(id) {
+        if (confirm('Delete this chat?')) {
+          chatHistory = chatHistory.filter(c => c.id !== id);
+          if (currentChatId === id) {
+            currentChatId = null;
+            currentMessages = [];
+            messagesContainer.innerHTML = '';
+            emptyState.style.display = 'flex';
+            emptyTitle.textContent = aiConfig[currentAI].label;
+          }
+          saveHistory();
+          renderHistory();
+        }
+      }
+
+      // ============================================================
+      // MESSAGE HANDLING
+      // ============================================================
+      function addMessage(role, content) {
+        emptyState.style.display = 'none';
+        const msg = { role, content };
+        currentMessages.push(msg);
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${role}`;
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+
+        if (role === 'user') {
+          bubble.textContent = content;
+        } else {
+          const tag = document.createElement('span');
+          tag.className = 'model-tag';
+          tag.textContent = `GPT ${aiConfig[currentAI].label}`;
+          bubble.appendChild(tag);
+          const lines = content.split('\n');
+          lines.forEach((line, i) => {
+            if (line.trim()) {
+              const p = document.createElement('p');
+              p.textContent = line;
+              p.style.margin = '0.15rem 0';
+              bubble.appendChild(p);
+            } else if (i < lines.length - 1) {
+              const br = document.createElement('br');
+              bubble.appendChild(br);
+            }
+          });
+        }
+
+        messageDiv.appendChild(bubble);
+        messagesContainer.appendChild(messageDiv);
+        chatArea.scrollTop = chatArea.scrollHeight;
+
+        // Auto-save after each message
+        if (currentMessages.length) {
+          saveCurrentChat();
+        }
+      }
+
+      function showTyping() {
+        typingIndicator.style.display = 'flex';
+        isTyping = true;
+        sendBtn.disabled = true;
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      function hideTyping() {
+        typingIndicator.style.display = 'none';
+        isTyping = false;
+        sendBtn.disabled = false;
+      }
+
+      // ============================================================
+      // SEND MESSAGE TO API
+      // ============================================================
+      async function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text || isTyping) return;
+
+        addMessage('user', text);
+        userInput.value = '';
+        userInput.focus();
+        showTyping();
+
+        const baseURL = 'https://api.siputzx.my.id/api/ai/';
+        let url = '';
+        switch (currentAI) {
+          case 'gemini':
+            url = `\( {baseURL}glm47flash?prompt= \){encodeURIComponent(text)}&system=You+are+a+helpful+assistant.&temperature=0.7`;
+            break;
+          case 'gita':
+            url = `\( {baseURL}gita?q= \){encodeURIComponent(text)}`;
+            break;
+          case 'gpt':
+            url = `\( {baseURL}gptoss120b?prompt= \){encodeURIComponent(text)}&system=You+are+a+helpful+assistant.&temperature=0.7`;
+            break;
+        }
+
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+
+          let reply = '';
+          if (currentAI === 'gita') {
+            reply = data.data || 'No response.';
+          } else {
+            reply = data.result || data.message || data.response || data.data || data.text || data.output || JSON.stringify(data);
+          }
+
+          if (typeof reply === 'object') reply = JSON.stringify(reply, null, 2);
+          if (typeof reply === 'string') {
+            try {
+              const parsed = JSON.parse(reply);
+              if (parsed && typeof parsed === 'object') {
+                reply = parsed.result || parsed.message || parsed.response || parsed.data || parsed.text || parsed.output || reply;
+                if (typeof reply === 'object') reply = JSON.stringify(reply, null, 2);
+              }
+            } catch(e) {}
+            reply = reply.replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\t/g, '  ');
+          }
+
+          hideTyping();
+          addMessage('ai', reply);
+        } catch (error) {
+          console.error(error);
+          hideTyping();
+          addMessage('ai', '⚠️ Something went wrong. Please try again.');
+        }
+      }
+
+      // ============================================================
+      // EVENT LISTENERS
+      // ============================================================
+      sendBtn.addEventListener('click', sendMessage);
+      userInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // ============================================================
+      // SIDEBAR TOGGLE
+      // ============================================================
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        sidebar.classList.toggle('mobile-open');
+        overlay.classList.toggle('open');
+      }
+
+      // ============================================================
+      // INIT
+      // ============================================================
+      loadHistory();
+
+      // Set initial dropdown state
+      const initCfg = aiConfig['gemini'];
+      selectedLabel.textContent = initCfg.display;
+      selectedBadge.textContent = initCfg.badge;
+      emptyTitle.textContent = initCfg.label;
+
+      userInput.focus();
+
+      // Close sidebar on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const sidebar = document.getElementById('sidebar');
+          const overlay = document.getElementById('sidebarOverlay');
+          if (sidebar.classList.contains('mobile-open')) {
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('open');
+          }
+        }
+      });
+
+      // Save before unload
+      window.addEventListener('beforeunload', () => {
+        if (currentMessages.length) saveCurrentChat();
+      });
+
+      // ============================================================
+      // EXPOSE GLOBALS
+      // ============================================================
+      window.newChat = newChat;
+      window.deleteChat = deleteChat;
+      window.toggleSidebar = toggleSidebar;
+      window.loadChat = loadChat;
+    })();
+  </script>
+</body>
+</html>
