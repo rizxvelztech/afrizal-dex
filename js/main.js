@@ -219,7 +219,7 @@ document.addEventListener('alpine:init', () => {
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('app', () => ({
-        dark: false,
+        dark: true, // ✅ DEFAULT HITAM
         scrolled: false,
         mobileMenu: false,
         activeTab: 'projects',
@@ -227,14 +227,14 @@ document.addEventListener('alpine:init', () => {
         currentAge: 14,
 
         init() {
+            // ✅ Default dark, kecuali user pernah pilih 'light'
             const saved = localStorage.getItem('theme');
-            if (saved === 'dark') this.dark = true;
-            else if (saved === 'light') this.dark = false;
-            else this.dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            this.dark = saved !== 'light';
 
             this.applyTheme();
             this.$watch('dark', () => this.applyTheme());
 
+            // Hanya ikuti OS kalau user belum pernah pilih
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
                 if (!localStorage.getItem('theme')) {
                     this.dark = e.matches;
@@ -260,7 +260,7 @@ document.addEventListener('alpine:init', () => {
             }, { passive: true });
 
             const lenis = new Lenis({
-                duration: 1.0,
+                duration: 1.2,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
                 orientation: 'vertical',
                 smoothWheel: true,
