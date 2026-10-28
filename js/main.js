@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // FormSubmit.co — kirim via fetch (AJAX, tanpa reload)
-            const endpoint = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+            const endpoint = `https://formsubmit.co/${CONTACT_EMAIL}`;
 
             const payload = {
                 name: nameInput.value.trim(),
