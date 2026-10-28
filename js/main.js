@@ -324,3 +324,151 @@ document.addEventListener('alpine:init', () => {
         }
     }));
 });
+
+/* ============================================
+   CONTACT FORM - FormSubmit.co Integration
+   ============================================
+   GANTI EMAIL DI BAWAH dengan email Gmail kamu.
+   Setelah submit pertama kali, FormSubmit akan
+   kirim email verifikasi -> klik link verifikasi.
+   Setelah itu 100% berfungsi.
+   ============================================ */
+const CONTACT_EMAIL = "afrizalsecurity99@gmail.com"; // ← GANTI DENGAN GMAIL KAMU!
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('contactForm');
+    if (!form) return;
+
+    const nameInput = document.getElementById('cf-name');
+    const emailInput = document.getElementById('cf-email');
+    const messageInput = document.getElementById('cf-message');
+    const submitBtn = document.getElementById('cf-submit');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnIcon = submitBtn.querySelector('.btn-icon');
+    const btnSpinner = submitBtn.querySelector('.btn-spinner');
+
+    // ---- TOAST HELPER ----
+    function showToast(message, type = 'success') {
+        const old = document.querySelector('.toast');
+        if (old) old.remove();
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i><span>${message}</span>`;
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => toast.classList.add('show'));
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        }, 4000);
+    }
+
+    // ---- VALIDATION HELPERS ----
+    function setError(input, msgEl, message) {
+        input.classList.add('input-error');
+        msgEl.textContent = message;
+        msgEl.classList.add('show');
+    }
+    function clearError(input, msgEl) {
+        input.classList.remove('input-error');
+        msgEl.textContent = '';
+        msgEl.classList.remove('show');
+    }
+
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    }
+
+    function validateForm() {
+        let valid = true;
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const message = messageInput.value.trim();
+
+        // Name
+        if (name.length < 2) {
+            setError(nameInput, document.getElementById('err-name'), 'Nama minimal 2 karakter.');
+            valid = false;
+        } else clearError(nameInput, document.getElementById('err-name'));
+
+        // Email
+        if (!validateEmail(email)) {
+            setError(emailInput, document.getElementById('err-email'), 'Format email tidak valid.');
+            valid = false;
+        } else clearError(emailInput, document.getElementById('err-email'));
+
+        // Message
+        if (message.length < 5) {
+            setError(messageInput, document.getElementById('err-message'), 'Pesan minimal 5 karakter.');
+            valid = false;
+        } else clearError(messageInput, document.getElementById('err-message'));
+
+        return valid;
+    }
+
+    // Live-clear error saat user mengetik
+    nameInput.addEventListener('input', () => clearError(nameInput, document.getElementById('err-name')));
+    emailInput.addEventListener('input', () => clearError(emailInput, document.getElementById('err-email')));
+    messageInput.addEventListener('input', () => clearError(messageInput, document.getElementById('err-message')));
+
+    // ---- SUBMIT HANDLER ----
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!validateForm()) {
+            showToast('Periksa kembali form kamu.', 'error');
+            return;
+        }
+
+        // Loading state
+        submitBtn.disabled = true;
+        btnText.textContent = 'Mengirim...';
+        btnIcon.classList.add('hidden');
+        btnSpinner.classList.remove('hidden');
+
+        try {
+            // FormSubmit.co — kirim via fetch (AJAX, tanpa reload)
+            const endpoint = `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
+
+            const payload = {
+                name: nameInput.value.trim(),
+                email: emailInput.value.trim(),
+                message: messageInput.value.trim(),
+                _subject: `Portfolio Contact: ${nameInput.value.trim()}`,
+                _template: 'table',
+                _captcha: 'false'
+            };
+
+            const res = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!res.ok) throw new Error('Network error');
+
+            const data = await res.json();
+
+            if (data.success === 'true' || data.success === true) {
+                showToast('Pesan berhasil dikirim! Saya akan balas secepatnya.', 'success');
+                form.reset();
+            } else {
+                throw new Error(data.message || 'Gagal mengirim');
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('Gagal mengirim. Coba lagi atau email langsung.', 'error');
+        } finally {
+            submitBtn.disabled = false;
+            btnText.textContent = 'Send Message';
+            btnIcon.classList.remove('hidden');
+            btnSpinner.classList.add('hidden');
+        }
+    });
+});
